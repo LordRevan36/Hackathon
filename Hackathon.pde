@@ -11,6 +11,12 @@ import java.util.List;
 ArrayList<Diploma> diplomas;
 ArrayList<Course> courses;
 User user;
+    //arrays for the courses the user is taking each year, can check for prereqs by traversing the array to find if user has scheduled them
+    //length of 14 since that's the total credits in a year
+Course[] freshSched = new Course[14];
+Course[] sophSched = new Course[14];
+Course[] junSched = new Course[14];
+Course[] senSched = new Course[14];
 
 
 //settings

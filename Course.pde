@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+
+//QUESTION: there's two sets of variables. it seems like a syncing issue, so which one is the more updated one that we're using?
+
 //variables
 String name;
 String subject; //ex: math, science, english
@@ -7,6 +10,7 @@ String specialClass; //stores whether a course is ib/ap/honors/acp
 int gradeLevel; //grade level required for the class
 ArrayList<String> prereqs; //stores list of prereqs
 int numCredits; //stores number of credits a course is
+
 public class Course {
     //variables
     String name;
@@ -20,8 +24,11 @@ public class Course {
 
     //SOMETHING TO THINK ABOUT: for prereq classes, how do we differentiate between the concurrent enrollment requirement and the total completion requirement?
 
-//constructor
-Course (String n, String s, int w, String sc, int g, int c){
+    //if prereqs are saved as a String array we could make another array of booleans that show whether the class at a certain index been enrolled in or not
+    //maybe make a method checkPrereqs(Course) that goes through the boolean array and returns a boolean, true if all prereqs are met, false if not met
+
+    //constructor
+    Course (String n, String s, int w, String sc, int g, int c){
     name = n;
     subject = s;
     weight = w;
@@ -56,6 +63,7 @@ Course (String n, String s, int w, String sc, int g, int c){
 
     //can be used to debug stuff with creating courses
     public String courseToString(boolean desc) {
+        //changed int weight into the corresponding word
         String weightWord;
         switch (weight) {
             case 0:
