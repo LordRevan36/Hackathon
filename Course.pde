@@ -14,6 +14,7 @@ int numCredits; //stores number of credits a course is
 public class Course {
     //variables
     String name;
+    int id; //the course id given in fhs course guide
     String subject; //ex: math, science, english
     int weight; //0 = no weight, 1 = single weighted, 2 = double weighted
     String specialClass; //stores whether a course is ib/ap/honors/acp
@@ -37,13 +38,14 @@ public class Course {
     numCredits = c;
 }
     //constructor
-    public Course(String name, String subject, int weight, String specialClass, int gradeLevel, int prereqSize, int numCredits, String description) {
-        this(name, subject, weight, specialClass, gradeLevel, numCredits, description);
+    public Course(String name, int id, String subject, int weight, String specialClass, int gradeLevel, int prereqSize, int numCredits, String description) {
+        this(name, id, subject, weight, specialClass, gradeLevel, numCredits, description);
         prereq = new String[prereqSize];
     }
     //another constructor but without creating the array at all
-    public Course(String name, String subject, int weight, String specialClass, int gradeLevel, int numCredits, String description) {
+    public Course(String name, int id, String subject, int weight, String specialClass, int gradeLevel, int numCredits, String description) {
         this.name = name;
+        this.id = id;
         this.subject = subject;
         this.weight = weight;
         this.specialClass = specialClass;
@@ -54,7 +56,7 @@ public class Course {
     //default constructor for overriding values after creation
     public Course(String name) {
         //this calls another constructor matching the parameters enters
-        this(name, "none", 0, "none", 0, 0, "none");
+        this(name, 0, "none", 0, "none", 0, 0, "none");
     }
 
     
