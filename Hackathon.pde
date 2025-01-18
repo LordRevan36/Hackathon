@@ -1,5 +1,7 @@
 //variables
-
+ArrayList<Diploma> diplomas;
+ArrayList<Course> courses;
+User user;
 
 
 //settings
