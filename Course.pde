@@ -1,16 +1,5 @@
 import java.util.ArrayList;
-
-//QUESTION: there's two sets of variables. it seems like a syncing issue, so which one is the more updated one that we're using?
-
-//variables
-String name;
-String subject; //ex: math, science, english
-int weight; //0 = no weight, 1 = single weighted, 2 = double weighted
-String specialClass; //stores whether a course is ib/ap/honors/acp
-int gradeLevel; //grade level required for the class
-ArrayList<String> prereqs; //stores list of prereqs
-int numCredits; //stores number of credits a course is
-
+//other set of variables deleted bcuz they were outside of the class
 public class Course {
     //variables
     String name;
@@ -85,7 +74,7 @@ public class Course {
         for (String req : prereq) {
             prereqsAsString += req + ", ";
         }
-        String result = name + " (" + subject + "), " + weightWord + ", " + specialClass + ", Grade: " + gradeLevel + "+, Prereqs: " + prereqsAsString + numCredits + " credits.";
+        String result = name + " (" + id + " " + subject + "), " + weightWord + ", " + specialClass + ", Grade: " + gradeLevel + "+, Prereqs: " + prereqsAsString + numCredits + " credits.";
         if (desc) {
             result += "\nDescription: " + description;
         }

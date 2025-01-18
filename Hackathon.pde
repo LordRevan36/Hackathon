@@ -64,6 +64,9 @@ public void setupCourses(String fileName) {
             courses.add(new Course(temp.substring(0,index)));//add object to array
             temp = temp.substring(index + 1);//removes first value and comma
             index = temp.indexOf(",");
+            courses.get(last).id = Integer.parseInt(temp.substring(0,index));
+            temp = temp.substring(index + 1);
+            index = temp.indexOf(",");
             courses.get(last).subject = temp.substring(0,index);
             temp = temp.substring(index + 1);
             index = temp.indexOf(",");
