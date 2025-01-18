@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-//other set of variables deleted bcuz they were outside of the class
+//(B) other set of variables deleted bcuz they were outside of the class
 public class Course {
     //variables
     String name;
@@ -12,10 +12,11 @@ public class Course {
     int numCredits; //stores number of credits a course is
     String description; //stores official description to display upon "more info" request
 
-    //SOMETHING TO THINK ABOUT: for prereq classes, how do we differentiate between the concurrent enrollment requirement and the total completion requirement?
+    //(B) SOMETHING TO THINK ABOUT: for prereq classes, how do we differentiate between the concurrent enrollment requirement and the total completion requirement?
 
     //if prereqs are saved as a String array we could make another array of booleans that show whether the class at a certain index been enrolled in or not
     //maybe make a method checkPrereqs(Course) that goes through the boolean array and returns a boolean, true if all prereqs are met, false if not met
+    //(B) that sounds like a good idea. My initial thought was to just check when displaying the course, but it's likely easier to have that stored with the object itself
 
     //constructor
     Course (String n, String s, int w, String sc, int g, int c){
