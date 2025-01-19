@@ -61,11 +61,13 @@ public void setup() {
     finalCompletion = new IFProgressBar(425, currentCompletion.getY(), currentCompletion.getWidth());
     global.add(currentCompletion);
     global.add(finalCompletion);
-    
+    textSize(13);
     currentProgressLabel = new IFLabel("Current Diploma Completion", 125, 180);
-    currentProgressLabel.setX(currentProgressLabel.getX() + (250 - 180)/2);
+    int fontWidth = (int) textWidth(currentProgressLabel.getLabel());
+    currentProgressLabel.setX(currentProgressLabel.getX() + (250 - fontWidth)/2);
     finalProgressLabel = new IFLabel("Expected Diploma Completion", 425, currentProgressLabel.getY());
-    finalProgressLabel.setX(finalProgressLabel.getX() + (250 - 180)/2);
+    fontWidth = (int) textWidth(finalProgressLabel.getLabel());
+    finalProgressLabel.setX(finalProgressLabel.getX() + (250 - fontWidth)/2);
     global.add(currentProgressLabel);
     global.add(finalProgressLabel);
         //initialize schedule screen UI elements
