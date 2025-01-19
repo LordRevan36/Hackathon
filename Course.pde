@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-//(B) other set of variables deleted bcuz they were outside of the class
+
 public class Course {
     //variables
     String name;

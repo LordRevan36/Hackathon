@@ -6,13 +6,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+///import gui library
+import interfascia.*;
 
 //variables
 ArrayList<Diploma> diplomas;
 ArrayList<Course> courses;
 User user;
     //arrays for the courses the user is taking each year, can check for prereqs by traversing the array to find if user has scheduled them
-    //length of 14 since that's the total credits in a year
 Course[] freshSched = new Course[14];
 Course[] sophSched = new Course[14];
 Course[] junSched = new Course[14];
