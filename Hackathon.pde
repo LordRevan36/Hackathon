@@ -1,6 +1,4 @@
 //imports
-//this is to import the lazygui library if we want it
-//import com.krab.lazy.*;
 //these are all for the fileReader function
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +16,18 @@ Course[] freshSched = new Course[14];
 Course[] sophSched = new Course[14];
 Course[] junSched = new Course[14];
 Course[] senSched = new Course[14];
+    //Global GUIController + a GUIController for each screen
+GUIController global, schedule, courseList, diplomaRequirements;
+    //stores which screen is on
+String screen;
+    //the "color theme" object, more to be added to color buttons etc.
+IFLookAndFeel defaultLook;
+    //global UI elements
+IFButton scheduleButton, courseListButton, diplomaRequirementsButton;
+IFProgressBar currentCompletion, finalCompletion;
+IFLabel currentProgressLabel, finalProgressLabel;
+    //schedule screen UI elements
+IFButton freshmanButton, sophomoreButton, juniorButton, seniorButton, otherButton;
 
 
 //settings
@@ -33,11 +43,48 @@ public void setup() {
     for (Course course : courses) {
         System.out.println(course.courseToString(true));
     }
+        //initializes to screen1 with screens 2 and 3 hidden
+    global = new GUIController(this);
+    schedule = new GUIController(this, true);
+    courseList = new GUIController(this, false);
+    diplomaRequirements = new GUIController(this, false);
+    screen = "schedule";
+    defaultLook = new IFLookAndFeel(this, IFLookAndFeel.DEFAULT);
+        //initialize global UI elements
+    scheduleButton = new IFButton("Schedule", 100, 100, 180, 40);
+    courseListButton = new IFButton("Course List", 310, scheduleButton.getY(), scheduleButton.getWidth(), scheduleButton.getHeight());
+    diplomaRequirementsButton = new IFButton("Diploma Requirements", 520, scheduleButton.getY(), scheduleButton.getWidth(), scheduleButton.getHeight());
+    global.add(scheduleButton);
+    global.add(courseListButton);
+    global.add(diplomaRequirementsButton);
+    currentCompletion = new IFProgressBar(125, 200, 250);
+    finalCompletion = new IFProgressBar(425, currentCompletion.getY(), currentCompletion.getWidth());
+    global.add(currentCompletion);
+    global.add(finalCompletion);
+    
+    currentProgressLabel = new IFLabel("Current Diploma Completion", 125, 180);
+    currentProgressLabel.setX(currentProgressLabel.getX() + (250 - 180)/2);
+    finalProgressLabel = new IFLabel("Expected Diploma Completion", 425, currentProgressLabel.getY());
+    finalProgressLabel.setX(finalProgressLabel.getX() + (250 - 180)/2);
+    global.add(currentProgressLabel);
+    global.add(finalProgressLabel);
+        //initialize schedule screen UI elements
+    freshmanButton = new IFButton("Freshman", 140, 250, 100, 30);
+    sophomoreButton = new IFButton("Sophomore", 245, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight());
+    juniorButton = new IFButton("Junior", 350, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight());
+    seniorButton = new IFButton("Senior", 455, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight());
+    otherButton = new IFButton("Other", 560, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight());
+    schedule.add(freshmanButton);
+    schedule.add(sophomoreButton);
+    schedule.add(juniorButton);
+    schedule.add(seniorButton);
+    schedule.add(otherButton);
+    
 }
 
 //draw
 public void draw() {
-
+    
 }
 
 public void setupCourses(String fileName) {
@@ -100,4 +147,8 @@ public void setupCourses(String fileName) {
     } catch (IOException e) {
         e.printStackTrace();
     }
+}
+
+void actionPerformed (GUIEvent e) {
+  
 }
