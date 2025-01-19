@@ -87,7 +87,11 @@ public void setup() {
 //draw
 public void draw() {
     background(255);
-    
+    /* (B) failed attempt to draw text over top of button
+    textSize(18);
+    fill(0);
+    textAlign(CENTER, TOP);
+    text("Freshman", freshmanButton.getX() + freshmanButton.getWidth()/2, freshmanButton.getY());*/
 }
 
 public void setupCourses(String fileName) {
