@@ -84,6 +84,7 @@ public void setup() {
 
 //draw
 public void draw() {
+    background(255);
     
 }
 
