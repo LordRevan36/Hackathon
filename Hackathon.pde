@@ -33,6 +33,7 @@ TableDrawing scheduleTable;
 GOption generalDiplomaButton, core40Button, academicHonorsButton, technicalHonorsButton;
 GLabel selectDiplomaLabel, totalCreditsLabel;
 GToggleGroup diplomaSelection;
+GTextField[][] scheduleTableTextFields = new GTextField[7][2];
     //course list screen UI elements
 GTextField searchBar;
 GLabel searchBarLabel;
@@ -236,8 +237,12 @@ public void initializeScheduleUIElements(boolean visible) {
 public void initializeScheduleTable() {
     String[] titles = {"Freshman Year", "Sophomore Year", "Junior Year", "Senior Year", "Other"};
     String[][] labels = {{"Semester 1", "Semester 2"}, {"APCSA", "APCSA"}, {"AP Calc BC", "AP Calc BC"}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
-    user.initializeTableDrawings(8, 2, 150, 330, 500, 250, titles, labels, 2, 16, color(0), color(0));
+    user.initializeTableDrawings(8, 2, 150, 330, 500, 250, titles, labels, scheduleTableTextFields, 2, 16, color(0), color(0));
     scheduleTable = user.userSchedules.get(0);
+}
+
+public void initializeDiplomaTable(){
+    
 }
 
 public void initializeDiplomaUIElements(boolean visible){
@@ -263,8 +268,11 @@ public void initializeDiplomaUIElements(boolean visible){
 
 public void initializeCourseListUIElements(boolean visible){
     searchBar = new GTextField(this, 200, 256, 440, 20);
+    textSize(30);
     searchBarLabel = new GLabel(this, 140, 250, 60, 30, "Search:");
     courseList.addControl(searchBar);
     courseList.addControl(searchBarLabel);
     courseList.setVisible(visible);
 }
+
+
