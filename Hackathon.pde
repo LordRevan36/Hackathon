@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 ///import gui library
-import interfascia.*;
+import g4p_controls.*;
 
 //variables
 ArrayList<Diploma> diplomas;
@@ -16,18 +16,18 @@ Course[] freshSched = new Course[14];
 Course[] sophSched = new Course[14];
 Course[] junSched = new Course[14];
 Course[] senSched = new Course[14];
-    //Global GUIController + a GUIController for each screen
-GUIController global, schedule, courseList, diplomaRequirements;
+    //Global GGroup + a GGroup for each screen
+GGroup global, schedule, courseList, diplomaRequirements;
     //stores which screen is on
 String screen;
     //the "color theme" object, more to be added to color buttons etc.
-IFLookAndFeel defaultLook;
+//removed (IF)
     //global UI elements
-IFButton scheduleButton, courseListButton, diplomaRequirementsButton;
-IFProgressBar currentCompletion, finalCompletion;
-IFLabel currentProgressLabel, finalProgressLabel;
+GButton scheduleButton, courseListButton, diplomaRequirementsButton;
+GSlider currentCompletionBar, finalCompletionBar;
+GLabel currentProgressLabel, finalProgressLabel;
     //schedule screen UI elements
-IFButton freshmanButton, sophomoreButton, juniorButton, seniorButton, otherButton;
+GButton freshmanButton, sophomoreButton, juniorButton, seniorButton, otherButton;
 
 
 //settings
@@ -37,58 +37,31 @@ public void settings() {
 
 //setup
 public void setup() {
+    surface.setTitle("Hackathon Project - Change Later");
     diplomas = new ArrayList<Diploma>();
     courses = new ArrayList<Course>();
     setupCourses("CourseList.csv");
     for (Course course : courses) {
         System.out.println(course.courseToString(true));
     }
-        //initializes to screen1 with screens 2 and 3 hidden
-    global = new GUIController(this);
-    schedule = new GUIController(this, true);
-    courseList = new GUIController(this, false);
-    diplomaRequirements = new GUIController(this, false);
-    screen = "schedule";
-    defaultLook = new IFLookAndFeel(this, IFLookAndFeel.DEFAULT);
-        //initialize global UI elements
-    scheduleButton = new IFButton("Schedule", 100, 100, 180, 40);
-    courseListButton = new IFButton("Course List", 310, scheduleButton.getY(), scheduleButton.getWidth(), scheduleButton.getHeight());
-    diplomaRequirementsButton = new IFButton("Diploma Requirements", 520, scheduleButton.getY(), scheduleButton.getWidth(), scheduleButton.getHeight());
-    global.add(scheduleButton);
-    global.add(courseListButton);
-    global.add(diplomaRequirementsButton);
-    currentCompletion = new IFProgressBar(125, 200, 250);
-    finalCompletion = new IFProgressBar(425, currentCompletion.getY(), currentCompletion.getWidth());
-    global.add(currentCompletion);
-    global.add(finalCompletion);
-    textSize(18);
-    currentProgressLabel = new IFLabel("Current Diploma Completion", 125, 180, 18);//last parameter is textSize
-    currentProgressLabel.setTextSize(18);//this also had no effect
-    int fontWidth = (int) textWidth(currentProgressLabel.getLabel());
-    currentProgressLabel.setX(currentProgressLabel.getX() + (250 - fontWidth)/2);
-    finalProgressLabel = new IFLabel("Expected Diploma Completion", 425, currentProgressLabel.getY());
-    fontWidth = (int) textWidth(finalProgressLabel.getLabel());
-    finalProgressLabel.setX(finalProgressLabel.getX() + (250 - fontWidth)/2);
-    global.add(currentProgressLabel);
-    global.add(finalProgressLabel);
-        //initialize schedule screen UI elements
-    freshmanButton = new IFButton("Freshman", 140, 250, 100, 30);
-    sophomoreButton = new IFButton("Sophomore", 245, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight());
-    juniorButton = new IFButton("Junior", 350, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight());
-    seniorButton = new IFButton("Senior", 455, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight());
-    otherButton = new IFButton("Other", 560, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight());
-    schedule.add(freshmanButton);
-    schedule.add(sophomoreButton);
-    schedule.add(juniorButton);
-    schedule.add(seniorButton);
-    schedule.add(otherButton);
-    
+    //condensed setup into functions to make setup cleaner
+    initializeGlobalUIElements();
+    initializeScheduleUIElements();
 }
 
 //draw
 public void draw() {
     background(255);
 }
+
+public void handleSliderEvents(GValueControl slider, GEvent event) {
+
+}
+
+public void handleButtonEvents(GButton button, GEvent event) {
+    
+}
+
 
 public void setupCourses(String fileName) {
     try {
@@ -152,6 +125,56 @@ public void setupCourses(String fileName) {
     }
 }
 
-void actionPerformed (GUIEvent e) {
-  
+public void initializeGlobalUIElements() {
+        //initializes to screen1 with screens 2 and 3 hidden
+    global = new GGroup(this);
+    schedule = new GGroup(this);
+    courseList = new GGroup(this);
+    diplomaRequirements = new GGroup(this);
+    courseList.setVisible(false);
+    diplomaRequirements.setVisible(false);
+    screen = "Schedule";
+        //initialize global UI elements
+        //screen switcher buttons
+    scheduleButton = new GButton(this, 100, 100, 180, 40, "Schedule");
+    courseListButton = new GButton(this, 310, scheduleButton.getY(), scheduleButton.getWidth(), scheduleButton.getHeight(), "Course List");
+    diplomaRequirementsButton = new GButton(this, 520, scheduleButton.getY(), scheduleButton.getWidth(), scheduleButton.getHeight(), "Diploma Requirements");
+    global.addControl(scheduleButton);
+    global.addControl(courseListButton);
+    global.addControl(diplomaRequirementsButton);
+        //progress bar labels
+    int fontSize = 18;
+    textSize(fontSize);
+    String label = "Current Diploma Completion";
+    int fontWidth = (int) (textWidth(label)) + 100;
+    System.out.println(fontWidth);
+    currentProgressLabel = new GLabel(this, 75, 170, fontWidth, fontSize + 5, label);
+    currentProgressLabel.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, fontSize));
+    label = "Expected Diploma Completion";
+    fontWidth = (int) (textWidth(label)) + 100;
+    System.out.println(fontWidth);
+    finalProgressLabel = new GLabel(this, 425, currentProgressLabel.getY(), fontWidth, fontSize + 5, label);
+    finalProgressLabel.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, fontSize));
+        //progress bars
+    currentCompletionBar = new GSlider(this, currentProgressLabel.getX() - 12, currentProgressLabel.getY() + 30, currentProgressLabel.getWidth(), 15, currentProgressLabel.getWidth());
+    finalCompletionBar = new GSlider(this, finalProgressLabel.getX() - 12, finalProgressLabel.getY() + 30, finalProgressLabel.getWidth(), 15, finalProgressLabel.getWidth());
+    currentCompletionBar.setEnabled(false);
+    finalCompletionBar.setEnabled(false);
+    global.addControl(currentProgressLabel);
+    global.addControl(finalProgressLabel);
+    global.addControl(currentCompletionBar);
+    global.addControl(finalCompletionBar);
+}
+
+public void initializeScheduleUIElements() {
+    freshmanButton = new GButton(this, 140, 250, 100, 30, "Freshman");
+    sophomoreButton = new GButton(this, 245, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight(), "Sophomore");
+    juniorButton = new GButton(this, 350, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight(), "Junior");
+    seniorButton = new GButton(this, 455, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight(), "Senior");
+    otherButton = new GButton(this, 560, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight(), "Other");
+    schedule.addControl(freshmanButton);
+    schedule.addControl(sophomoreButton);
+    schedule.addControl(juniorButton);
+    schedule.addControl(seniorButton);
+    schedule.addControl(otherButton);
 }
