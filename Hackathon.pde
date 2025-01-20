@@ -64,11 +64,6 @@ public void draw() {
     finalProgressBar.drawProgressBar(true, 2);
 <<<<<<< Updated upstream
     if (screen.equals("Schedule")) scheduleTable.drawTable();
-=======
-    if (screen.equals("Schedule")) {
-        scheduleTable.drawTable();
-    }
->>>>>>> Stashed changes
 }
 
 public void handleButtonEvents(GButton button, GEvent event) {
@@ -92,8 +87,6 @@ public void handleButtonEvents(GButton button, GEvent event) {
             diplomaRequirements.setVisible(false);
         }
         //changes displayed schedule table
-=======
->>>>>>> Stashed changes
         if (button == freshmanButton) {
             scheduleTable = user.userSchedules.get(0);
         } else if (button == sophomoreButton) {
@@ -106,6 +99,10 @@ public void handleButtonEvents(GButton button, GEvent event) {
             scheduleTable = user.userSchedules.get(4);
         }
     }
+}
+
+public void handleToggleControlEvents(GToggleControl option, GEvent event) {
+    
 }
 
 
