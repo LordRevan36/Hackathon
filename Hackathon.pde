@@ -61,8 +61,9 @@ public void setup() {
     finalCompletion = new IFProgressBar(425, currentCompletion.getY(), currentCompletion.getWidth());
     global.add(currentCompletion);
     global.add(finalCompletion);
-    textSize(13);
-    currentProgressLabel = new IFLabel("Current Diploma Completion", 125, 180);
+    textSize(18);
+    currentProgressLabel = new IFLabel("Current Diploma Completion", 125, 180, 18);//last parameter is textSize
+    currentProgressLabel.setTextSize(18);//this also had no effect
     int fontWidth = (int) textWidth(currentProgressLabel.getLabel());
     currentProgressLabel.setX(currentProgressLabel.getX() + (250 - fontWidth)/2);
     finalProgressLabel = new IFLabel("Expected Diploma Completion", 425, currentProgressLabel.getY());
@@ -87,11 +88,6 @@ public void setup() {
 //draw
 public void draw() {
     background(255);
-    /* (B) failed attempt to draw text over top of button
-    textSize(18);
-    fill(0);
-    textAlign(CENTER, TOP);
-    text("Freshman", freshmanButton.getX() + freshmanButton.getWidth()/2, freshmanButton.getY());*/
 }
 
 public void setupCourses(String fileName) {
