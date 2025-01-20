@@ -62,11 +62,18 @@ public void draw() {
     background(255);
     currentProgressBar.drawProgressBar(true, 2);
     finalProgressBar.drawProgressBar(true, 2);
+<<<<<<< Updated upstream
     if (screen.equals("Schedule")) scheduleTable.drawTable();
+=======
+    if (screen.equals("Schedule")) {
+        scheduleTable.drawTable();
+    }
+>>>>>>> Stashed changes
 }
 
 public void handleButtonEvents(GButton button, GEvent event) {
     if (event == GEvent.CLICKED) {
+<<<<<<< Updated upstream
         if (button == diplomaRequirementsButton){
             screen = "Diploma Requirements";
             schedule.setEnabled(false);
@@ -85,6 +92,8 @@ public void handleButtonEvents(GButton button, GEvent event) {
             diplomaRequirements.setVisible(false);
         }
         //changes displayed schedule table
+=======
+>>>>>>> Stashed changes
         if (button == freshmanButton) {
             scheduleTable = user.userSchedules.get(0);
         } else if (button == sophomoreButton) {
