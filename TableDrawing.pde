@@ -1,4 +1,5 @@
 public class TableDrawing {
+    String title;
     int rowNum, columnNum;
     int[] rowSizes, columnSizes;
     int x, y, wid, hgt;
@@ -81,5 +82,10 @@ public class TableDrawing {
                 cell.drawCell(borderWeight, fontSize, borderColor, textColor);
             }
         }
+        textSize(25);
+        textAlign(CENTER, BOTTOM);
+        noStroke();
+        fill(0);
+        text(title, x + wid/2, y - 5);
     }
 }

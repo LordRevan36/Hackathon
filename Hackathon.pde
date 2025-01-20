@@ -24,12 +24,11 @@ String screen;
 //removed (IF)
     //global UI elements
 GButton scheduleButton, courseListButton, diplomaRequirementsButton;
-GSlider currentCompletionBar, finalCompletionBar;
 GLabel currentProgressLabel, finalProgressLabel;
+ProgressBar currentProgressBar, finalProgressBar;
     //schedule screen UI elements
 GButton freshmanButton, sophomoreButton, juniorButton, seniorButton, otherButton;
-Table scheduleTable;
-TableDrawing scheduleTableDrawing;
+TableDrawing scheduleTable;
     //diploma screen UI elements
 GOption generalDiplomaButton, core40Button, academicHonorsButton, technicalHonorsButton;
 GLabel selectDiplomaLabel, totalCreditsLabel;
@@ -47,15 +46,12 @@ public void setup() {
     surface.setTitle("Hackathon Project - Name Better Later");
     diplomas = new ArrayList<Diploma>();
     courses = new ArrayList<Course>();
+    user = new User();
     setupCourses("CourseList.csv");
-    /*for (Course course : courses) {
-        System.out.println(course.courseToString(true));
-    }*/
-    //condensed setup into functions to make setup cleaner
     initializeGlobalUIElements();
-    initializeScheduleUIElements();
+    initializeScheduleUIElements(true);
     initializeScheduleTable();
-    initializeDiplomaUIElements();
+    initializeDiplomaUIElements(false);
 
     
     
@@ -64,26 +60,42 @@ public void setup() {
 //draw
 public void draw() {
     background(255);
-    if (screen.equals("Schedule")) scheduleTableDrawing.drawTable();
+    currentProgressBar.drawProgressBar(true, 2);
+    finalProgressBar.drawProgressBar(true, 2);
+    if (screen.equals("Schedule")) scheduleTable.drawTable();
 }
 
 public void handleButtonEvents(GButton button, GEvent event) {
-    if (button == diplomaRequirementsButton){
-        screen = "Diploma Requirements";
-        schedule.setEnabled(false);
-        schedule.setVisible(false);
-        courseList.setEnabled(false);
-        courseList.setVisible(false);
-        diplomaRequirements.setEnabled(true);
-        diplomaRequirements.setVisible(true);
-    } else if (button == scheduleButton){
-        screen = "Schedule";
-        schedule.setEnabled(true);
-        schedule.setVisible(true);
-        courseList.setEnabled(false);
-        courseList.setVisible(false);
-        diplomaRequirements.setEnabled(false);
-        diplomaRequirements.setVisible(false);
+    if (event == GEvent.CLICKED) {
+        if (button == diplomaRequirementsButton){
+            screen = "Diploma Requirements";
+            schedule.setEnabled(false);
+            schedule.setVisible(false);
+            courseList.setEnabled(false);
+            courseList.setVisible(false);
+            diplomaRequirements.setEnabled(true);
+            diplomaRequirements.setVisible(true);
+        } else if (button == scheduleButton){
+            screen = "Schedule";
+            schedule.setEnabled(true);
+            schedule.setVisible(true);
+            courseList.setEnabled(false);
+            courseList.setVisible(false);
+            diplomaRequirements.setEnabled(false);
+            diplomaRequirements.setVisible(false);
+        }
+        //changes displayed schedule table
+        if (button == freshmanButton) {
+            scheduleTable = user.userSchedules.get(0);
+        } else if (button == sophomoreButton) {
+            scheduleTable = user.userSchedules.get(1);
+        } else if (button == juniorButton) {
+            scheduleTable = user.userSchedules.get(2);
+        } else if (button == seniorButton) {
+            scheduleTable = user.userSchedules.get(3);
+        } else if (button == otherButton) {
+            scheduleTable = user.userSchedules.get(4);
+        }
     }
 }
 
@@ -172,24 +184,22 @@ public void initializeGlobalUIElements() {
     textSize(fontSize);
     String label = "Current Diploma Completion";
     int fontWidth = (int) (textWidth(label)) + 100;
-    currentProgressLabel = new GLabel(this, 75, 170, fontWidth, fontSize + 5, label);
+    currentProgressLabel = new GLabel(this, 45, 170, fontWidth, fontSize + 5, label);
     currentProgressLabel.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, fontSize));
     label = "Expected Diploma Completion";
     fontWidth = (int) (textWidth(label)) + 100;
-    finalProgressLabel = new GLabel(this, 425, currentProgressLabel.getY(), fontWidth, fontSize + 5, label);
+    finalProgressLabel = new GLabel(this, 410, currentProgressLabel.getY(), fontWidth, fontSize + 5, label);
     finalProgressLabel.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, fontSize));
-        //progress bars
-    currentCompletionBar = new GSlider(this, currentProgressLabel.getX() - 12, currentProgressLabel.getY() + 30, currentProgressLabel.getWidth(), 15, currentProgressLabel.getWidth());
-    finalCompletionBar = new GSlider(this, finalProgressLabel.getX() - 12, finalProgressLabel.getY() + 30, finalProgressLabel.getWidth(), 15, finalProgressLabel.getWidth());
-    currentCompletionBar.setEnabled(false);
-    finalCompletionBar.setEnabled(false);
     global.addControl(currentProgressLabel);
     global.addControl(finalProgressLabel);
-    global.addControl(currentCompletionBar);
-    global.addControl(finalCompletionBar);
+        //progress bars
+    currentProgressBar = new ProgressBar(45, 200, 290, 20, 0, 42, 4, 25, "RIGHT");
+    currentProgressBar.setColors(color(0,0,255), color(0,255,0), color(0), color(0));
+    finalProgressBar = new ProgressBar(415, 200, 290, 20, 0, 42, 42, 25, "RIGHT");
+    finalProgressBar.setColors(color(0,0,255), color(0,255,0), color(0), color(0));
 }
 
-public void initializeScheduleUIElements() {
+public void initializeScheduleUIElements(boolean visible) {
     freshmanButton = new GButton(this, 140, 250, 100, 30, "Freshman");
     sophomoreButton = new GButton(this, 245, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight(), "Sophomore");
     juniorButton = new GButton(this, 350, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight(), "Junior");
@@ -200,17 +210,17 @@ public void initializeScheduleUIElements() {
     schedule.addControl(juniorButton);
     schedule.addControl(seniorButton);
     schedule.addControl(otherButton);
-
+    schedule.setVisible(visible);
 }
 
 public void initializeScheduleTable() {
-    scheduleTableDrawing = new TableDrawing(8, 2, 150, 350, 500, 250);
+    String[] titles = {"Freshman Year", "Sophomore Year", "Junior Year", "Senior Year", "Other Years"};
     String[][] labels = {{"Semester 1", "Semester 2"}, {"APCSA", "APCSA"}, {"AP Calc BC", "AP Calc BC"}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
-    scheduleTableDrawing.setDisplay(2, 16, color(0), color(0));
-    scheduleTableDrawing.createCellObjects(labels, true);
+    user.initializeTableDrawings(8, 2, 150, 330, 500, 250, titles, labels, 2, 16, color(0), color(0));
+    scheduleTable = user.userSchedules.get(0);
 }
 
-public void initializeDiplomaUIElements(){
+public void initializeDiplomaUIElements(boolean visible){
     //make radio buttons and add into a toggle group
     generalDiplomaButton = new GOption(this, 240, 250, 100, 30, "General Diploma");
     core40Button = new GOption(this, 350, generalDiplomaButton.getY(), generalDiplomaButton.getWidth(), generalDiplomaButton.getHeight(),"Core 40");
@@ -228,4 +238,5 @@ public void initializeDiplomaUIElements(){
     diplomaRequirements.addControl(technicalHonorsButton);
     diplomaRequirements.addControl(selectDiplomaLabel);
     diplomaRequirements.addControl(totalCreditsLabel);
+    diplomaRequirements.setVisible(visible);
 }
