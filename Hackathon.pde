@@ -115,6 +115,10 @@ public void handleToggleControlEvents(GToggleControl option, GEvent event) {
     
 }
 
+public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
+
+}
+
 
 public void setupCourses(String fileName) {
     try {
