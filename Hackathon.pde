@@ -55,17 +55,36 @@ public void setup() {
     initializeGlobalUIElements();
     initializeScheduleUIElements();
     initializeScheduleTable();
-    //initializeDiplomaUIElements();
+    initializeDiplomaUIElements();
+
+    
+    
 }
 
 //draw
 public void draw() {
     background(255);
-    scheduleTableDrawing.drawTable();
+    if (screen.equals("Schedule")) scheduleTableDrawing.drawTable();
 }
 
 public void handleButtonEvents(GButton button, GEvent event) {
-    
+    if (button == diplomaRequirementsButton){
+        screen = "Diploma Requirements";
+        schedule.setEnabled(false);
+        schedule.setVisible(false);
+        courseList.setEnabled(false);
+        courseList.setVisible(false);
+        diplomaRequirements.setEnabled(true);
+        diplomaRequirements.setVisible(true);
+    } else if (button == scheduleButton){
+        screen = "Schedule";
+        schedule.setEnabled(true);
+        schedule.setVisible(true);
+        courseList.setEnabled(false);
+        courseList.setVisible(false);
+        diplomaRequirements.setEnabled(false);
+        diplomaRequirements.setVisible(false);
+    }
 }
 
 
@@ -207,5 +226,6 @@ public void initializeDiplomaUIElements(){
     diplomaRequirements.addControl(core40Button);
     diplomaRequirements.addControl(academicHonorsButton);
     diplomaRequirements.addControl(technicalHonorsButton);
-    
+    diplomaRequirements.addControl(selectDiplomaLabel);
+    diplomaRequirements.addControl(totalCreditsLabel);
 }
