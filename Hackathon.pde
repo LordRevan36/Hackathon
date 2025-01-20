@@ -28,6 +28,10 @@ GSlider currentCompletionBar, finalCompletionBar;
 GLabel currentProgressLabel, finalProgressLabel;
     //schedule screen UI elements
 GButton freshmanButton, sophomoreButton, juniorButton, seniorButton, otherButton;
+    //diploma screen UI elements
+GOption generalDiplomaButton, core40Button, academicHonorsButton, technicalHonorsButton;
+GLabel selectDiplomaLabel, totalCreditsLabel;
+GToggleGroup diplomaSelection;
 
 
 //settings
@@ -44,9 +48,13 @@ public void setup() {
     for (Course course : courses) {
         System.out.println(course.courseToString(true));
     }
+    
     //condensed setup into functions to make setup cleaner
     initializeGlobalUIElements();
     initializeScheduleUIElements();
+    //initializeDiplomaUIElements();
+    //diplomaRequirements.setVisible(true);
+    
 }
 
 //draw
@@ -177,4 +185,23 @@ public void initializeScheduleUIElements() {
     schedule.addControl(juniorButton);
     schedule.addControl(seniorButton);
     schedule.addControl(otherButton);
+}
+
+public void initializeDiplomaUIElements(){
+    //make radio buttons and add into a toggle group
+    generalDiplomaButton = new GOption(this, 240, 250, 100, 30, "General Diploma");
+    core40Button = new GOption(this, 350, generalDiplomaButton.getY(), generalDiplomaButton.getWidth(), generalDiplomaButton.getHeight(),"Core 40");
+    academicHonorsButton = new GOption(this, 460, generalDiplomaButton.getY(), generalDiplomaButton.getWidth(), generalDiplomaButton.getHeight(),"Academic Honors");
+    technicalHonorsButton = new GOption(this, 570, generalDiplomaButton.getY(), generalDiplomaButton.getWidth(), generalDiplomaButton.getHeight(),"Technical Honors");
+    diplomaSelection = new GToggleGroup();
+    diplomaSelection.addControls(generalDiplomaButton,core40Button,academicHonorsButton,technicalHonorsButton);
+    //set labels
+    selectDiplomaLabel = new GLabel(this, 130, generalDiplomaButton.getY(), generalDiplomaButton.getWidth(), generalDiplomaButton.getHeight(),"Select diploma:");
+    totalCreditsLabel = new GLabel(this, 500, 720, 200, 30, "Total Credits:");
+    //add to gui controller
+    diplomaRequirements.addControl(generalDiplomaButton);
+    diplomaRequirements.addControl(core40Button);
+    diplomaRequirements.addControl(academicHonorsButton);
+    diplomaRequirements.addControl(technicalHonorsButton);
+    
 }
