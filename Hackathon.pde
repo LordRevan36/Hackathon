@@ -28,7 +28,8 @@ GSlider currentCompletionBar, finalCompletionBar;
 GLabel currentProgressLabel, finalProgressLabel;
     //schedule screen UI elements
 GButton freshmanButton, sophomoreButton, juniorButton, seniorButton, otherButton;
-
+Table scheduleTable;
+TableDrawing scheduleTableDrawing;
 
 //settings
 public void settings() {
@@ -41,21 +42,19 @@ public void setup() {
     diplomas = new ArrayList<Diploma>();
     courses = new ArrayList<Course>();
     setupCourses("CourseList.csv");
-    for (Course course : courses) {
+    /*for (Course course : courses) {
         System.out.println(course.courseToString(true));
-    }
+    }*/
     //condensed setup into functions to make setup cleaner
     initializeGlobalUIElements();
     initializeScheduleUIElements();
+    initializeScheduleTable();
 }
 
 //draw
 public void draw() {
     background(255);
-}
-
-public void handleSliderEvents(GValueControl slider, GEvent event) {
-
+    scheduleTableDrawing.drawTable();
 }
 
 public void handleButtonEvents(GButton button, GEvent event) {
@@ -147,12 +146,10 @@ public void initializeGlobalUIElements() {
     textSize(fontSize);
     String label = "Current Diploma Completion";
     int fontWidth = (int) (textWidth(label)) + 100;
-    System.out.println(fontWidth);
     currentProgressLabel = new GLabel(this, 75, 170, fontWidth, fontSize + 5, label);
     currentProgressLabel.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, fontSize));
     label = "Expected Diploma Completion";
     fontWidth = (int) (textWidth(label)) + 100;
-    System.out.println(fontWidth);
     finalProgressLabel = new GLabel(this, 425, currentProgressLabel.getY(), fontWidth, fontSize + 5, label);
     finalProgressLabel.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, fontSize));
         //progress bars
@@ -177,4 +174,28 @@ public void initializeScheduleUIElements() {
     schedule.addControl(juniorButton);
     schedule.addControl(seniorButton);
     schedule.addControl(otherButton);
+
+}
+
+public void initializeScheduleTable() {
+    scheduleTable = new Table();
+    scheduleTable.addColumn("Semester 1");
+    scheduleTable.addColumn("Semester 2");
+    TableRow row0 = scheduleTable.addRow();
+    row0.setString("Semester 1", "Semester 1");
+    row0.setString("Semester 2", "Semester 2");
+    TableRow row1 = scheduleTable.addRow();
+    row1.setString("Semester 1", "APCSA");
+    row1.setString("Semester 2", "APCSA");
+    TableRow row2 = scheduleTable.addRow();
+    row2.setString("Semester 1", "AP Calc BC");
+    row2.setString("Semester 2", "AP Calc BC");
+    TableRow row3 = scheduleTable.addRow();
+    TableRow row4 = scheduleTable.addRow();
+    TableRow row5 = scheduleTable.addRow();
+    TableRow row6 = scheduleTable.addRow();
+    TableRow row7 = scheduleTable.addRow();
+    scheduleTableDrawing = new TableDrawing(scheduleTable, 150, 350, 500, 250);
+    scheduleTableDrawing.createCellObjects(scheduleTable);
+    scheduleTableDrawing.setDisplay(2, 16, color(0), color(0));
 }
