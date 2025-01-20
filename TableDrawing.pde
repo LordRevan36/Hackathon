@@ -33,15 +33,6 @@ public class TableDrawing {
             columnSizes[i] = defaultColumnSize;
         }
     }
-    public TableDrawing(Table table, int x, int y, int wid, int hgt) {
-        this(table.getRowCount(), table.getColumnCount(), x, y, wid, hgt);
-        for (int i = 0; i < rowNum; i++) {
-            rowSizes[i] = hgt/rowSizes.length;
-        }
-        for (int i = 0; i < columnNum; i++) {
-            columnSizes[i] = wid/columnSizes.length;
-        }
-    }
 
         //methods
     public void setRowSizes(int[] nums) {
@@ -82,22 +73,6 @@ public class TableDrawing {
             cellY += rowSizes[i];
         }
         setAllLabels(labels, override);
-    }
-    public void createCellObjects(Table table) {
-        int cellX = x;
-        int cellY = y;
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[0].length; j++) {
-                if (table.getString(i,j) == null) {
-                    cells[i][j] = new Cell(cellX, cellY, columnSizes[j], rowSizes[i], "", color(255));
-                } else {
-                    cells[i][j] = new Cell(cellX, cellY, columnSizes[j], rowSizes[i], table.getString(i,j), color(255));
-                }
-                cellX += columnSizes[j];
-            }
-            cellX = x;
-            cellY += rowSizes[i];
-        }
     }
 
     public void drawTable() {

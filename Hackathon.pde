@@ -44,7 +44,7 @@ public void settings() {
 
 //setup
 public void setup() {
-    surface.setTitle("Hackathon Project - Change Later");
+    surface.setTitle("Hackathon Project - Name Better Later");
     diplomas = new ArrayList<Diploma>();
     courses = new ArrayList<Course>();
     setupCourses("CourseList.csv");
@@ -55,6 +55,7 @@ public void setup() {
     initializeGlobalUIElements();
     initializeScheduleUIElements();
     initializeScheduleTable();
+    //initializeDiplomaUIElements();
 }
 
 //draw
@@ -184,28 +185,10 @@ public void initializeScheduleUIElements() {
 }
 
 public void initializeScheduleTable() {
-    /*scheduleTable = new Table();
-    scheduleTable.addColumn("Semester 1");
-    scheduleTable.addColumn("Semester 2");
-    TableRow row0 = scheduleTable.addRow();
-    row0.setString("Semester 1", "Semester 1");
-    row0.setString("Semester 2", "Semester 2");
-    TableRow row1 = scheduleTable.addRow();
-    row1.setString("Semester 1", "APCSA");
-    row1.setString("Semester 2", "APCSA");
-    TableRow row2 = scheduleTable.addRow();
-    row2.setString("Semester 1", "AP Calc BC");
-    row2.setString("Semester 2", "AP Calc BC");
-    TableRow row3 = scheduleTable.addRow();
-    TableRow row4 = scheduleTable.addRow();
-    TableRow row5 = scheduleTable.addRow();
-    TableRow row6 = scheduleTable.addRow();
-    TableRow row7 = scheduleTable.addRow();
-    scheduleTableDrawing = new TableDrawing(scheduleTable, 150, 350, 500, 250);
-    scheduleTableDrawing.createCellObjects(scheduleTable);
-    scheduleTableDrawing.setDisplay(2, 16, color(0), color(0));*/
-    scheduleTable = new TableDrawing(8, 2, 150, 350, 500, 250);
+    scheduleTableDrawing = new TableDrawing(8, 2, 150, 350, 500, 250);
     String[][] labels = {{"Semester 1", "Semester 2"}, {"APCSA", "APCSA"}, {"AP Calc BC", "AP Calc BC"}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
+    scheduleTableDrawing.setDisplay(2, 16, color(0), color(0));
+    scheduleTableDrawing.createCellObjects(labels, true);
 }
 
 public void initializeDiplomaUIElements(){
