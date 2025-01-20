@@ -184,7 +184,7 @@ public void initializeScheduleUIElements() {
 }
 
 public void initializeScheduleTable() {
-    scheduleTable = new Table();
+    /*scheduleTable = new Table();
     scheduleTable.addColumn("Semester 1");
     scheduleTable.addColumn("Semester 2");
     TableRow row0 = scheduleTable.addRow();
@@ -203,7 +203,9 @@ public void initializeScheduleTable() {
     TableRow row7 = scheduleTable.addRow();
     scheduleTableDrawing = new TableDrawing(scheduleTable, 150, 350, 500, 250);
     scheduleTableDrawing.createCellObjects(scheduleTable);
-    scheduleTableDrawing.setDisplay(2, 16, color(0), color(0));
+    scheduleTableDrawing.setDisplay(2, 16, color(0), color(0));*/
+    scheduleTable = new TableDrawing(8, 2, 150, 350, 500, 250);
+    String[][] labels = {{"Semester 1", "Semester 2"}, {"APCSA", "APCSA"}, {"AP Calc BC", "AP Calc BC"}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
 }
 
 public void initializeDiplomaUIElements(){

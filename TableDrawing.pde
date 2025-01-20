@@ -17,6 +17,12 @@ public class TableDrawing {
         rowSizes = new int[rowNum];
         columnSizes = new int[columnNum];
         cells = new Cell[rowNum][columnNum];
+        for (int i = 0; i < rowNum; i++) {
+            rowSizes[i] = hgt/rowNum;
+        }
+        for (int i = 0; i < columnNum; i++) {
+            columnSizes[i] = wid/columnNum;
+        }
     }
     public TableDrawing(int rowNum, int columnNum, int defaultRowSize, int defaultColumnSize, int x, int y, int wid, int hgt) {
         this(rowNum, columnNum, x, y, wid, hgt);
@@ -53,6 +59,29 @@ public class TableDrawing {
         this.fontSize = fontSize;
         this.borderColor = borderColor;
         this.textColor = textColor;
+    }
+    public void setAllLabels(String[][] labels, boolean override) {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                if (labels[i][j].equals("") && !override) {
+                    continue;
+                }
+                cells[i][j].label = labels[i][j];
+            }
+        }
+    }
+    public void createCellObjects(String[][] labels, boolean override) {
+        int cellX = x;
+        int cellY = y;
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                cells[i][j] = new Cell(cellX, cellY, columnSizes[j], rowSizes[i], "", color(255));
+                cellX += columnSizes[j];
+            }
+            cellX = x;
+            cellY += rowSizes[i];
+        }
+        setAllLabels(labels, override);
     }
     public void createCellObjects(Table table) {
         int cellX = x;
