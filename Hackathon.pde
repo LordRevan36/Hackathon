@@ -33,6 +33,9 @@ TableDrawing scheduleTable;
 GOption generalDiplomaButton, core40Button, academicHonorsButton, technicalHonorsButton;
 GLabel selectDiplomaLabel, totalCreditsLabel;
 GToggleGroup diplomaSelection;
+    //course list screen UI elements
+GTextField searchBar;
+GLabel searchBarLabel;
     
 
 
@@ -52,6 +55,7 @@ public void setup() {
     initializeScheduleUIElements(true);
     initializeScheduleTable();
     initializeDiplomaUIElements(false);
+    initializeCourseListUIElements(false);
 
     
     
@@ -81,6 +85,14 @@ public void handleButtonEvents(GButton button, GEvent event) {
             schedule.setVisible(true);
             courseList.setEnabled(false);
             courseList.setVisible(false);
+            diplomaRequirements.setEnabled(false);
+            diplomaRequirements.setVisible(false);
+        } else if (button == courseListButton){
+            screen = "Course List";
+            schedule.setEnabled(false);
+            schedule.setVisible(false);
+            courseList.setEnabled(true);
+            courseList.setVisible(true);
             diplomaRequirements.setEnabled(false);
             diplomaRequirements.setVisible(false);
         }
@@ -218,7 +230,7 @@ public void initializeScheduleUIElements(boolean visible) {
 }
 
 public void initializeScheduleTable() {
-    String[] titles = {"Freshman Year", "Sophomore Year", "Junior Year", "Senior Year", "Other Years"};
+    String[] titles = {"Freshman Year", "Sophomore Year", "Junior Year", "Senior Year", "Other"};
     String[][] labels = {{"Semester 1", "Semester 2"}, {"APCSA", "APCSA"}, {"AP Calc BC", "AP Calc BC"}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
     user.initializeTableDrawings(8, 2, 150, 330, 500, 250, titles, labels, 2, 16, color(0), color(0));
     scheduleTable = user.userSchedules.get(0);
@@ -243,4 +255,12 @@ public void initializeDiplomaUIElements(boolean visible){
     diplomaRequirements.addControl(selectDiplomaLabel);
     diplomaRequirements.addControl(totalCreditsLabel);
     diplomaRequirements.setVisible(visible);
+}
+
+public void initializeCourseListUIElements(boolean visible){
+    searchBar = new GTextField(this, 200, 256, 440, 20);
+    searchBarLabel = new GLabel(this, 140, 250, 60, 30, "Search:");
+    courseList.addControl(searchBar);
+    courseList.addControl(searchBarLabel);
+    courseList.setVisible(visible);
 }
