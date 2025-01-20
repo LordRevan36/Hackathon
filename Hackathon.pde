@@ -62,13 +62,11 @@ public void draw() {
     background(255);
     currentProgressBar.drawProgressBar(true, 2);
     finalProgressBar.drawProgressBar(true, 2);
-<<<<<<< Updated upstream
     if (screen.equals("Schedule")) scheduleTable.drawTable();
 }
 
 public void handleButtonEvents(GButton button, GEvent event) {
     if (event == GEvent.CLICKED) {
-<<<<<<< Updated upstream
         if (button == diplomaRequirementsButton){
             screen = "Diploma Requirements";
             schedule.setEnabled(false);
