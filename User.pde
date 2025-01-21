@@ -16,27 +16,11 @@ public class User {
             userSchedules.get(i).title = titles[i];
             userSchedules.get(i).setDisplay(borderWeight, fontSize, borderColor, textColor);
             userSchedules.get(i).createCellObjects(labels, true);   
-            //setEmptyCells(tableFields, labels, x, y, (float)wid/rowNum, (float)hgt/columnNum);
         }
+        setEmptyCells(tableFields, labels, x, y, (float)wid/rowNum, (float)hgt/columnNum);
     }
-    /*
-    //sets the empty cells to text fields
-    public void setEmptyCells(GTextField[][] tableFields, String[][] labels, int x, int y, float wid, float hgt){
-        for (int i = 0; i < labels.length; i++){
-            for (int j = 0; j < labels[i].length - 1;j++){
-                //set location of the text box      !!!IN PROGRESS
-                tableFields[i][j] = new GTextField(this, x + wid*j, y + hgt*i, wid, hgt);
-                //set the text field if box is empty
-                if (labels[i][j].equals("")){
-                    tableFields[i][j].setVisible(true);
-                    tableFields[i][j].setEnabled(true);
-                } else {
-                    tableFields[i][j].setVisible(false);
-                    tableFields[i][j].setEnabled(false);
-                }
-            }
-        }
-    } */
+    
+    
     
     
 }

@@ -241,6 +241,24 @@ public void initializeScheduleTable() {
     scheduleTable = user.userSchedules.get(0);
 }
 
+//for tables: sets the empty cells to text fields
+public void setEmptyCells(GTextField[][] tableFields, String[][] labels, int x, int y, float wid, float hgt){
+    for (int i = 0; i < tableFields.length; i++){
+        for (int j = 0; j < tableFields[i].length;j++){
+            //set location of the text box
+            tableFields[i][j] = new GTextField(this, (x+2.5) + (j)*hgt*2, (y+2.5) + (i+1)*wid/2, hgt*2 - 5, wid/2 - 5); //for some reason the width and height are switched
+            //set the text field if box is empty
+            if (labels[i+1][j].equals("")){
+                tableFields[i][j].setVisible(true);
+                tableFields[i][j].setEnabled(true);
+            } else {
+                tableFields[i][j].setVisible(false);
+                tableFields[i][j].setEnabled(false);
+            }
+        }
+    }
+} 
+
 public void initializeDiplomaTable(){
     
 }
@@ -274,5 +292,4 @@ public void initializeCourseListUIElements(boolean visible){
     courseList.addControl(searchBarLabel);
     courseList.setVisible(visible);
 }
-
 
