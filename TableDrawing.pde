@@ -62,6 +62,17 @@ public class TableDrawing {
             }
         }
     }
+
+    public String[][] getLabelArray() {
+        String[][] result = new String[rowNum][columnNum];
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                result[i][j] = cells[i][j].label;
+            }
+        }
+        return result;
+    }
+
     public void createCellObjects(String[][] labels, boolean override) {
         int cellX = x;
         int cellY = y;
@@ -76,12 +87,13 @@ public class TableDrawing {
         setAllLabels(labels, override);
     }
 
-    public void drawTable() {
+    public void drawTable(GTextField[][] tableFields) {
         for (Cell[] row : cells) {
             for (Cell cell : row) {
                 cell.drawCell(borderWeight, fontSize, borderColor, textColor);
             }
         }
+        //setEmptyCells(tableFields, getLabelArray(), x, y, (float)wid/rowNum, (float)hgt/columnNum);
         textSize(25);
         textAlign(CENTER, BOTTOM);
         noStroke();

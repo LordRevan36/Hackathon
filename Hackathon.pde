@@ -67,7 +67,7 @@ public void draw() {
     background(255);
     currentProgressBar.drawProgressBar(true, 2);
     finalProgressBar.drawProgressBar(true, 2);
-    if (screen.equals("Schedule")) scheduleTable.drawTable();
+    if (screen.equals("Schedule")) scheduleTable.drawTable(scheduleTableTextFields);
 }
 
 public void handleButtonEvents(GButton button, GEvent event) {
@@ -80,6 +80,7 @@ public void handleButtonEvents(GButton button, GEvent event) {
             courseList.setVisible(false);
             diplomaRequirements.setEnabled(true);
             diplomaRequirements.setVisible(true);
+            disableScheduleTextFields();
         } else if (button == scheduleButton){
             screen = "Schedule";
             schedule.setEnabled(true);
@@ -88,6 +89,7 @@ public void handleButtonEvents(GButton button, GEvent event) {
             courseList.setVisible(false);
             diplomaRequirements.setEnabled(false);
             diplomaRequirements.setVisible(false);
+            setEmptyCells(scheduleTableTextFields, scheduleTable.getLabelArray(), scheduleTable.x, scheduleTable.y, (float)scheduleTable.wid/scheduleTable.rowNum, (float)scheduleTable.hgt/scheduleTable.columnNum);
         } else if (button == courseListButton){
             screen = "Course List";
             schedule.setEnabled(false);
@@ -96,18 +98,23 @@ public void handleButtonEvents(GButton button, GEvent event) {
             courseList.setVisible(true);
             diplomaRequirements.setEnabled(false);
             diplomaRequirements.setVisible(false);
+            disableScheduleTextFields();
         }
         //changes displayed schedule table
-        if (button == freshmanButton) {
-            scheduleTable = user.userSchedules.get(0);
-        } else if (button == sophomoreButton) {
-            scheduleTable = user.userSchedules.get(1);
-        } else if (button == juniorButton) {
-            scheduleTable = user.userSchedules.get(2);
-        } else if (button == seniorButton) {
-            scheduleTable = user.userSchedules.get(3);
-        } else if (button == otherButton) {
-            scheduleTable = user.userSchedules.get(4);
+        if (button == freshmanButton || button == sophomoreButton || button == juniorButton || button == seniorButton || button == otherButton) {
+            disableScheduleTextFields();
+            if (button == freshmanButton) {
+                scheduleTable = user.userSchedules.get(0);
+            } else if (button == sophomoreButton) {
+                scheduleTable = user.userSchedules.get(1);
+            } else if (button == juniorButton) {
+                scheduleTable = user.userSchedules.get(2);
+            } else if (button == seniorButton) {
+                scheduleTable = user.userSchedules.get(3);
+            } else if (button == otherButton) {
+                scheduleTable = user.userSchedules.get(4);
+            }
+            setEmptyCells(scheduleTableTextFields, scheduleTable.getLabelArray(), scheduleTable.x, scheduleTable.y, (float)scheduleTable.wid/scheduleTable.rowNum, (float)scheduleTable.hgt/scheduleTable.columnNum);
         }
     }
 }
@@ -239,6 +246,8 @@ public void initializeScheduleTable() {
     String[][] labels = {{"Semester 1", "Semester 2"}, {"APCSA", "APCSA"}, {"AP Calc BC", "AP Calc BC"}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
     user.initializeTableDrawings(8, 2, 150, 330, 500, 250, titles, labels, scheduleTableTextFields, 2, 16, color(0), color(0));
     scheduleTable = user.userSchedules.get(0);
+    scheduleTable.cells[1][0].label = "English 9";
+    scheduleTable.cells[1][1].label = "English 9";
 }
 
 //for tables: sets the empty cells to text fields
@@ -293,3 +302,12 @@ public void initializeCourseListUIElements(boolean visible){
     courseList.setVisible(visible);
 }
 
+
+public void disableScheduleTextFields() {
+    for (GTextField[] list : scheduleTableTextFields) {
+        for (GTextField field : list) {
+            field.setVisible(false);
+            field.setEnabled(false);
+        }
+    }
+}
