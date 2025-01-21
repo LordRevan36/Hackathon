@@ -269,7 +269,7 @@ public void setEmptyCells(GTextField[][] tableFields, String[][] labels, int x, 
 } 
 
 public void initializeDiplomaTable(){
-    
+    //test
 }
 
 public void initializeDiplomaUIElements(boolean visible){
