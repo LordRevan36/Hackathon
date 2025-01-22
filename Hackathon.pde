@@ -39,6 +39,7 @@ GTextField searchBar;
 GLabel searchBarLabel;
     
 //testing
+//(B) pushing comment back to you
 
 //settings
 public void settings() {
