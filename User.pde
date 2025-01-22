@@ -9,7 +9,7 @@ public class User {
 
     }
 
-    public void initializeTableDrawings(int rowNum, int columnNum, int x, int y, int wid, int hgt, String[] titles, String[][] labels, GTextField[][] tableFields, int borderWeight, int fontSize, color borderColor, color textColor) {
+    public void initializeTableDrawings(int rowNum, int columnNum, int x, int y, int wid, int hgt, String[] titles, String[][] labels, GTextField[][] tableFields, GButton[][] buttons, int borderWeight, int fontSize, color borderColor, color textColor) {
         userSchedules = new ArrayList<TableDrawing>();
         for (int i = 0; i < 5; i++) {
             userSchedules.add(new TableDrawing(rowNum, columnNum, x, y, wid, hgt));
@@ -17,7 +17,7 @@ public class User {
             userSchedules.get(i).setDisplay(borderWeight, fontSize, borderColor, textColor);
             userSchedules.get(i).createCellObjects(labels, true);   
         }
-        setEmptyCells(tableFields, labels, x, y, (float)wid/rowNum, (float)hgt/columnNum);
+        setEmptyCells(tableFields, buttons, labels, x, y, (float)wid/rowNum, (float)hgt/columnNum);
     }
     
     

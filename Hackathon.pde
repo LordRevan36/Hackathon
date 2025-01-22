@@ -35,6 +35,7 @@ GOption generalDiplomaButton, core40Button, academicHonorsButton, technicalHonor
 GLabel selectDiplomaLabel, totalCreditsLabel;
 GToggleGroup diplomaSelection;
 GTextField[][] scheduleTableTextFields = new GTextField[7][2];
+GButton[][] scheduleTableDeleteButtons = new GButton[7][2];
     //course list screen UI elements
 GTextField searchBar;
 GLabel searchBarLabel;
@@ -84,6 +85,7 @@ public void handleButtonEvents(GButton button, GEvent event) {
             diplomaRequirements.setEnabled(true);
             diplomaRequirements.setVisible(true);
             disableScheduleTextFields();
+            disableScheduleDeleteButtons();
         } else if (button == scheduleButton){
             screen = "Schedule";
             schedule.setEnabled(true);
@@ -92,7 +94,7 @@ public void handleButtonEvents(GButton button, GEvent event) {
             courseList.setVisible(false);
             diplomaRequirements.setEnabled(false);
             diplomaRequirements.setVisible(false);
-            setEmptyCells(scheduleTableTextFields, scheduleTable.getLabelArray(), scheduleTable.x, scheduleTable.y, (float)scheduleTable.wid/scheduleTable.rowNum, (float)scheduleTable.hgt/scheduleTable.columnNum);
+            setEmptyCells(scheduleTableTextFields, scheduleTableDeleteButtons, scheduleTable.getLabelArray(), scheduleTable.x, scheduleTable.y, (float)scheduleTable.wid/scheduleTable.rowNum, (float)scheduleTable.hgt/scheduleTable.columnNum);
         } else if (button == courseListButton){
             screen = "Course List";
             schedule.setEnabled(false);
@@ -102,10 +104,12 @@ public void handleButtonEvents(GButton button, GEvent event) {
             diplomaRequirements.setEnabled(false);
             diplomaRequirements.setVisible(false);
             disableScheduleTextFields();
+            disableScheduleDeleteButtons();
         }
         //changes displayed schedule table
         if (button == freshmanButton || button == sophomoreButton || button == juniorButton || button == seniorButton || button == otherButton) {
             disableScheduleTextFields();
+            disableScheduleDeleteButtons();
             if (button == freshmanButton) {
                 scheduleTable = user.userSchedules.get(0);
             } else if (button == sophomoreButton) {
@@ -117,7 +121,7 @@ public void handleButtonEvents(GButton button, GEvent event) {
             } else if (button == otherButton) {
                 scheduleTable = user.userSchedules.get(4);
             }
-            setEmptyCells(scheduleTableTextFields, scheduleTable.getLabelArray(), scheduleTable.x, scheduleTable.y, (float)scheduleTable.wid/scheduleTable.rowNum, (float)scheduleTable.hgt/scheduleTable.columnNum);
+            setEmptyCells(scheduleTableTextFields, scheduleTableDeleteButtons, scheduleTable.getLabelArray(), scheduleTable.x, scheduleTable.y, (float)scheduleTable.wid/scheduleTable.rowNum, (float)scheduleTable.hgt/scheduleTable.columnNum);
         }
     }
 }
@@ -247,25 +251,30 @@ public void initializeScheduleUIElements(boolean visible) {
 public void initializeScheduleTable() {
     String[] titles = {"Freshman Year", "Sophomore Year", "Junior Year", "Senior Year", "Other"};
     String[][] labels = {{"Semester 1", "Semester 2"}, {"APCSA", "APCSA"}, {"AP Calc BC", "AP Calc BC"}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
-    user.initializeTableDrawings(8, 2, 150, 330, 500, 250, titles, labels, scheduleTableTextFields, 2, 16, color(0), color(0));
+    user.initializeTableDrawings(8, 2, 150, 330, 500, 250, titles, labels, scheduleTableTextFields, scheduleTableDeleteButtons, 2, 16, color(0), color(0));
     scheduleTable = user.userSchedules.get(0);
     scheduleTable.cells[1][0].label = "English 9";
     scheduleTable.cells[1][1].label = "English 9";
 }
 
 //for tables: sets the empty cells to text fields
-public void setEmptyCells(GTextField[][] tableFields, String[][] labels, int x, int y, float wid, float hgt){
+public void setEmptyCells(GTextField[][] tableFields, GButton[][] buttons, String[][] labels, int x, int y, float wid, float hgt){
     for (int i = 0; i < tableFields.length; i++){
         for (int j = 0; j < tableFields[i].length;j++){
             //set location of the text box
             tableFields[i][j] = new GTextField(this, (x+2.5) + (j)*hgt*2, (y+2.5) + (i+1)*wid/2, hgt*2 - 5, wid/2 - 5); //for some reason the width and height are switched
+            buttons[i][j] = new GButton(this, (x+ hgt*2-52.5) + (j)*hgt*2, (y+2.5) + (i+1)*wid/2, 50, wid/2 - 5, "Delete"); 
             //set the text field if box is empty
             if (labels[i+1][j].equals("")){
                 tableFields[i][j].setVisible(true);
                 tableFields[i][j].setEnabled(true);
+                buttons[i][j].setVisible(false);
+                buttons[i][j].setEnabled(false);
             } else {
                 tableFields[i][j].setVisible(false);
                 tableFields[i][j].setEnabled(false);
+                buttons[i][j].setVisible(true);
+                buttons[i][j].setEnabled(true);
             }
         }
     }
@@ -314,6 +323,15 @@ public void disableScheduleTextFields() {
         }
     }
 }
+public void disableScheduleDeleteButtons(){
+    for (GButton[] list : scheduleTableDeleteButtons){
+        for (GButton button : list){
+            button.setVisible(false);
+            button.setEnabled(false);
+        }
+    }
+}
+
 public void initializeCourseTable() {
     ArrayList<String> courseNames = new ArrayList<String>();
     for (Course course : courses) {
