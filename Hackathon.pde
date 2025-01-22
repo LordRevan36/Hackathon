@@ -38,7 +38,7 @@ GTextField[][] scheduleTableTextFields = new GTextField[7][2];
 GTextField searchBar;
 GLabel searchBarLabel;
     
-
+//testing
 
 //settings
 public void settings() {
