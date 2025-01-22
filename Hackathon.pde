@@ -10,6 +10,7 @@ import g4p_controls.*;
 //variables
 ArrayList<Diploma> diplomas;
 ArrayList<Course> courses;
+TableDrawing coursesTable;
 User user;
     //arrays for the courses the user is taking each year, can check for prereqs by traversing the array to find if user has scheduled them
 Course[] freshSched = new Course[14];
@@ -43,7 +44,7 @@ GLabel searchBarLabel;
 
 //settings
 public void settings() {
-    size(800,800);
+    size(800,650);
 }
 
 //setup
@@ -58,7 +59,7 @@ public void setup() {
     initializeScheduleTable();
     initializeDiplomaUIElements(false);
     initializeCourseListUIElements(false);
-
+    initializeCourseTable();
     
     
 }
@@ -69,6 +70,7 @@ public void draw() {
     currentProgressBar.drawProgressBar(true, 2);
     finalProgressBar.drawProgressBar(true, 2);
     if (screen.equals("Schedule")) scheduleTable.drawTable(scheduleTableTextFields);
+    if (screen.equals("Course List")) coursesTable.drawTable();
 }
 
 public void handleButtonEvents(GButton button, GEvent event) {
@@ -311,4 +313,22 @@ public void disableScheduleTextFields() {
             field.setEnabled(false);
         }
     }
+}
+public void initializeCourseTable() {
+    ArrayList<String> courseNames = new ArrayList<String>();
+    for (Course course : courses) {
+        courseNames.add(course.name);
+    }
+    coursesTable = new TableDrawing(courseNames.size(), 1, 150, 330, 500, 250);
+    String[][] emptyArray = new String[coursesTable.rowNum][coursesTable.columnNum];
+    for (int i = 0; i < emptyArray.length; i++) {
+        for (int j = 0; j < emptyArray[0].length; j++) {
+            emptyArray[i][j] = "";
+        }
+    }
+    coursesTable.createCellObjects(emptyArray, true);
+    coursesTable.setDisplay(2, 16, color(0), color(0));
+    coursesTable.setColumn(0, courseNames);
+    coursesTable.title = "Courses";
+    
 }
