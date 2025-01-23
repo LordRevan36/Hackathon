@@ -20,7 +20,18 @@ public class User {
         setEmptyCells(tableFields, buttons, labels, x, y, (float)wid/rowNum, (float)hgt/columnNum);
     }
     
-    
-    
+    public void deleteCourse(ArrayList<TableDrawing> schedule, String year, int row, int col){
+        if (year.equals("Freshman")){
+            schedule.get(0).setOneLabel(row,col,"");
+        } else if (year.equals("Sophomore")){
+            schedule.get(1).setOneLabel(row,col,"");
+        } else if (year.equals("Junior")){
+            schedule.get(2).setOneLabel(row,col,"");
+        } else if (year.equals("Senior")){
+            schedule.get(3).setOneLabel(row,col,"");
+        } else if (year.equals("Other")){
+            schedule.get(4).setOneLabel(row,col,"");
+        }
+    }
     
 }

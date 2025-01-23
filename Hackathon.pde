@@ -30,6 +30,8 @@ ProgressBar currentProgressBar, finalProgressBar;
     //schedule screen UI elements
 GButton freshmanButton, sophomoreButton, juniorButton, seniorButton, otherButton;
 TableDrawing scheduleTable;
+    //stores which grade on the schedule screen is selected
+String selectedYear;
     //diploma screen UI elements
 GOption generalDiplomaButton, core40Button, academicHonorsButton, technicalHonorsButton;
 GLabel selectDiplomaLabel, totalCreditsLabel;
@@ -39,9 +41,6 @@ GButton[][] scheduleTableDeleteButtons = new GButton[7][2];
     //course list screen UI elements
 GTextField searchBar;
 GLabel searchBarLabel;
-    
-//testing
-//(B) pushing comment back to you
 
 //settings
 public void settings() {
@@ -54,6 +53,7 @@ public void setup() {
     diplomas = new ArrayList<Diploma>();
     courses = new ArrayList<Course>();
     user = new User();
+    selectedYear = "Freshman";
     setupCourses("CourseList.csv");
     initializeGlobalUIElements();
     initializeScheduleUIElements(true);
@@ -112,16 +112,32 @@ public void handleButtonEvents(GButton button, GEvent event) {
             disableScheduleDeleteButtons();
             if (button == freshmanButton) {
                 scheduleTable = user.userSchedules.get(0);
+                selectedYear = "Freshman";
             } else if (button == sophomoreButton) {
                 scheduleTable = user.userSchedules.get(1);
+                selectedYear = "Sophomore";
             } else if (button == juniorButton) {
                 scheduleTable = user.userSchedules.get(2);
+                selectedYear = "Junior";
             } else if (button == seniorButton) {
                 scheduleTable = user.userSchedules.get(3);
+                selectedYear = "Senior";
             } else if (button == otherButton) {
                 scheduleTable = user.userSchedules.get(4);
+                selectedYear = "Other";
             }
             setEmptyCells(scheduleTableTextFields, scheduleTableDeleteButtons, scheduleTable.getLabelArray(), scheduleTable.x, scheduleTable.y, (float)scheduleTable.wid/scheduleTable.rowNum, (float)scheduleTable.hgt/scheduleTable.columnNum);
+        }
+        for (int i = 0; i < scheduleTableDeleteButtons.length; i++){
+            for (int j = 0; j < scheduleTableDeleteButtons[i].length; j++){
+                if (button == scheduleTableDeleteButtons[i][j]){
+                    user.deleteCourse(user.userSchedules, selectedYear, i+1, j);
+                    scheduleTableDeleteButtons[i][j].setVisible(false);
+                    scheduleTableDeleteButtons[i][j].setEnabled(false);
+                    scheduleTableTextFields[i][j].setVisible(true);
+                    scheduleTableTextFields[i][j].setEnabled(true);
+                }
+            }
         }
     }
 }
@@ -278,7 +294,8 @@ public void setEmptyCells(GTextField[][] tableFields, GButton[][] buttons, Strin
             }
         }
     }
-} 
+}
+
 
 public void initializeDiplomaTable(){
     //test

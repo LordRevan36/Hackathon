@@ -68,6 +68,9 @@ public class TableDrawing {
             }
         }
     }
+    public void setOneLabel(int row, int col, String label){
+        cells[row][col].label = label;
+    }
     public void setColumn(int index, ArrayList<String> labels) {
         for (int i = 0; i < rowNum; i++) {
             cells[i][index].label = labels.get(i);
