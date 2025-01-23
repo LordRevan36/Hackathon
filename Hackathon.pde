@@ -71,7 +71,11 @@ public void draw() {
     currentProgressBar.drawProgressBar(true, 2);
     finalProgressBar.drawProgressBar(true, 2);
     if (screen.equals("Schedule")) scheduleTable.drawTable(scheduleTableTextFields);
-    if (screen.equals("Course List")) coursesTable.drawTable();
+    if (screen.equals("Course List")){
+        coursesTable.drawTable();
+        fill(40,10,120);
+        rect(197.5,253.5,445,25);
+    }
 }
 
 public void handleButtonEvents(GButton button, GEvent event) {
@@ -200,13 +204,18 @@ public void setupCourses(String fileName) {
             courses.get(last).prereq = new String[Integer.parseInt(temp.substring(0,index))];
             temp = temp.substring(index + 1);
             int i = 0;
-            while (temp.contains(",")) {//repeats for each prereq value except the last
+            while (temp.contains(",")) {//repeats for each prereq value
                 index = temp.indexOf(",");
                 courses.get(last).prereq[i] = temp.substring(0,index);
                 temp = temp.substring(index + 1);
                 i++;
             }
-            courses.get(last).prereq[courses.get(last).prereq.length - 1] = temp;//last value doesn't contain comma
+            while (temp.contains("/")){ //repeats while there's more tags
+                index = temp.indexOf("/");
+                courses.get(last).tags.add(new String(temp.substring(0,index)));
+                temp = temp.substring(index + 1);
+            }
+            courses.get(last).tags.add(temp); //add last tag
         }
     } catch (IOException e) {
         e.printStackTrace();

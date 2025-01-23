@@ -119,7 +119,7 @@ public class TableDrawing {
         textSize(25);
         textAlign(CENTER, BOTTOM);
         noStroke();
-        fill(0);
+        fill(40,10,120);
         text(title, x + wid/2, y - 5);
     }
     public void drawTable() {
@@ -137,7 +137,7 @@ public class TableDrawing {
         textSize(25);
         textAlign(CENTER, BOTTOM);
         noStroke();
-        fill(0);
+        fill(40,10,120);
         text(title, x + wid/2, y - 5);
     }
 }
