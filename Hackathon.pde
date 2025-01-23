@@ -61,7 +61,7 @@ public void setup() {
     initializeDiplomaUIElements(false);
     initializeCourseListUIElements(false);
     initializeCourseTable();
-    
+    initializeDiplomas();
     
 }
 
@@ -366,4 +366,9 @@ public void initializeCourseTable() {
     coursesTable.setColumn(0, courseNames);
     coursesTable.title = "Courses";
     
+}
+
+public void initializeDiplomas() {
+    diplomas.add(new Diploma("Core 40"));
+    diplomas.get(0).parseDiploma("Core40.csv", courses);
 }

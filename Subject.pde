@@ -4,4 +4,10 @@ public class Subject {
     int numRequired;
     ArrayList<RequiredCourses> requiredCourses;
 
+    public Subject(String name) {
+        this.name = name;
+        numRequired = 0;
+        requiredCourses = new ArrayList<RequiredCourses>();
+    }
+
 }

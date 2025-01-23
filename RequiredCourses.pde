@@ -4,4 +4,11 @@ public class RequiredCourses {
     ArrayList<Course> courses;
     ArrayList<String> categories;
 
+    public RequiredCourses(String name) {
+        this.name = name;
+        numRequired = 0;
+        courses = new ArrayList<Course>();
+        categories = new ArrayList<String>();
+    }
+
 }
