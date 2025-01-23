@@ -6,11 +6,12 @@ public class Course {
     int id; //the course id given in fhs course guide
     String subject; //ex: math, science, english
     int weight; //0 = no weight, 1 = single weighted, 2 = double weighted
-    String specialClass; //stores whether a course is ib/ap/honors/acp
+    String specialClass; //stores whether a course is ib/ap/honors/acp, none if not
     int gradeLevel; //grade level required for the class
     String[] prereq; //stores list of prereq classes
     int numCredits; //stores number of credits a course is
     String description; //stores official description to display upon "more info" request
+    ArrayList<String> tags = new ArrayList<>();
 
     //(B) SOMETHING TO THINK ABOUT: for prereq classes, how do we differentiate between the concurrent enrollment requirement and the total completion requirement?
 
