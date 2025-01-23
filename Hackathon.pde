@@ -151,7 +151,12 @@ public void handleToggleControlEvents(GToggleControl option, GEvent event) {
 }
 
 public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
-
+    if (event == GEvent.CHANGED){
+        if (textcontrol == searchBar){
+            //set labels of coursesTable to searchCourse(searchBar.getText())
+            coursesTable.setColumn(0,searchCourse(searchBar.getText(),10));
+        }
+    }
 }
 
 
@@ -380,4 +385,32 @@ public void initializeCourseTable() {
 public void initializeDiplomas() {
     diplomas.add(new Diploma("Core 40"));
     diplomas.get(0).parseDiploma("Core40.csv", courses);
+}
+
+public ArrayList<String> searchCourse(String entry, int colHgt){
+    ArrayList<String> searchedCourses = new ArrayList<>();
+    int index = entry.length();
+    entry = entry.toLowerCase();
+    if (entry.equals("")){ //if search bar is blank, return all courses
+        for (int i = 0; i < courses.size(); i++){
+            searchedCourses.add(courses.get(i).name);
+        }
+    } else {
+        for (int i = 0; i < courses.size(); i++){
+            if (courses.get(i).name.toLowerCase().contains(entry)){ //if course name contains the entry 
+                searchedCourses.add(courses.get(i).name);
+            } else if (courses.get(i).tags.size() > 0){
+                for (int j = 0; j < courses.get(i).tags.size(); j++){
+                    if (courses.get(i).tags.get(j).toLowerCase().contains(entry)){ //if first few letters of tags match entry
+                        searchedCourses.add(courses.get(i).name);
+                    }
+                }
+            }
+        }
+        while (searchedCourses.size() < colHgt){ //clear extra table cells
+            searchedCourses.add("");
+        }
+
+    }
+    return searchedCourses;
 }
