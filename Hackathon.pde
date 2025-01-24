@@ -389,8 +389,8 @@ public void initializeCourseTable() {
 public void initializeDiplomas() {
     int longestColumnWidth = 450;
     diplomas.add(new Diploma("Core 40"));
-    diplomas.get(0).parseDiploma("Core40.csv", courses);
     Diploma currentDiploma = diplomas.get(0);
+    currentDiploma.parseDiploma("Core40.csv", courses);
     currentDiploma.diplomaTable.setAllProperties(currentDiploma.subjects.size(), 3, 75, 330, 650, 300);
     int[] sizes = {165,longestColumnWidth,35};
     currentDiploma.diplomaTable.setColumnSizes(sizes);
