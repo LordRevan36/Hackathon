@@ -143,6 +143,7 @@ public class TableDrawing {
         fill(40,10,120);
         text(title, x + wid/2, y - 5);
     }
+    
     public void drawTable() {
         int num = 0;
         for (Cell[] row : cells) {
