@@ -31,7 +31,8 @@ ProgressBar currentProgressBar, finalProgressBar;
     //schedule screen UI elements
 GButton freshmanButton, sophomoreButton, juniorButton, seniorButton, otherButton;
 TableDrawing scheduleTable;
-GPanel[] coursesPopup;
+GButton[] scheduleAddButtons;
+GPanel addCoursePopup;
 GTextField[][] scheduleTableTextFields = new GTextField[7][2];
 GButton[][] scheduleTableDeleteButtons = new GButton[7][2];
     //stores which grade on the schedule screen is selected
@@ -60,6 +61,7 @@ public void setup() {
     initializeGlobalUIElements();
     initializeScheduleUIElements(true);
     initializeScheduleTable();
+    initializeScheduleAddButton();
     initializeDiplomaUIElements(false);
     initializeCourseListUIElements(false);
     initializeCourseTable();
@@ -170,7 +172,8 @@ public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
         for (int i = 0; i < scheduleTableTextFields.length; i++){
             for (int j = 0; j < scheduleTableTextFields[i].length; j++){
                 if (textcontrol == scheduleTableTextFields[i][j]){
-
+                    addCoursePopup.setVisible(true);
+                    addCoursePopup.setEnabled(true);
                 }
             }
         }
@@ -303,6 +306,21 @@ public void initializeScheduleTable() {
     scheduleTable = user.userSchedules.get(0);
     scheduleTable.cells[1][0].label = "English 9";
     scheduleTable.cells[1][1].label = "English 9";
+}
+
+public void initializeScheduleAddButton(){
+    scheduleAddButtons = new GButton[4]; //popup displays 4 courses at a time
+    for (int i = 0; i < 4; i++){
+         scheduleAddButtons[i] = new GButton(this, 505, 505, 190,30,"filler");
+    }
+    addCoursePopup= new GPanel(this,500,500,200,150,"Select a course to add");
+    addCoursePopup.setCollapsed(false);
+    addCoursePopup.setDraggable(true);
+    addCoursePopup.setVisible(false);
+    addCoursePopup.setEnabled(false);
+    for (int i = 0; i < 4; i++){
+        addCoursePopup.addControl(scheduleAddButtons[i],5,22+i*32,0);
+    }
 }
 
 //for tables: sets the empty cells to text fields
@@ -466,4 +484,4 @@ public ArrayList<String> searchCourse(String entry, int colHgt){
     return searchedCourses;
 }
 
-    
+
