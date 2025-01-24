@@ -3,11 +3,13 @@ public class Diploma {
     String name;
     ArrayList<Subject> subjects;
     int totalCreditsRequired;
+    TableDrawing diplomaTable;
 
     public Diploma(String name) {
         this.name = name;
         subjects = new ArrayList<Subject>();
         totalCreditsRequired = 0;
+        diplomaTable = new TableDrawing(name);
     }
 
     public void parseDiploma(String fileName, ArrayList<Course> allCourses) {

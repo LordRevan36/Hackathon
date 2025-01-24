@@ -27,6 +27,9 @@ public class TableDrawing {
             columnSizes[i] = wid/columnNum;
         }
     }
+    public TableDrawing(String title) {
+        this.title = title;
+    }
     public TableDrawing(int rowNum, int columnNum, int x, int y, int wid, int hgt, int limit) {
         this(rowNum, columnNum, x, y, wid, hgt);
         this.limit = limit;
@@ -45,6 +48,24 @@ public class TableDrawing {
     public void setRowSizes(int[] nums) {
         for (int i = 0; i < nums.length; i++) {
             rowSizes[i] = nums[i];
+        }
+    }
+    public void setAllProperties(int rowNum, int columnNum, int x, int y, int wid, int hgt) {
+        this.rowNum = rowNum;
+        this.columnNum = columnNum;
+        this.x = x;
+        this.y = y;
+        this.wid = wid;
+        this.hgt = hgt;
+        limit = -1;
+        rowSizes = new int[rowNum];
+        columnSizes = new int[columnNum];
+        cells = new Cell[rowNum][columnNum];
+        for (int i = 0; i < rowNum; i++) {
+            rowSizes[i] = hgt/rowNum;
+        }
+        for (int i = 0; i < columnNum; i++) {
+            columnSizes[i] = wid/columnNum;
         }
     }
     public void setColumnSizes(int[] nums) {
@@ -133,7 +154,6 @@ public class TableDrawing {
                 break;
             }
         }
-        //setEmptyCells(tableFields, getLabelArray(), x, y, (float)wid/rowNum, (float)hgt/columnNum);
         textSize(25);
         textAlign(CENTER, BOTTOM);
         noStroke();

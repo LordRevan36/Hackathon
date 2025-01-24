@@ -12,6 +12,7 @@ ArrayList<Diploma> diplomas;
 ArrayList<Course> courses;
 TableDrawing coursesTable;
 User user;
+Diploma selectedDiploma;
     //arrays for the courses the user is taking each year, can check for prereqs by traversing the array to find if user has scheduled them
 Course[] freshSched = new Course[14];
 Course[] sophSched = new Course[14];
@@ -75,6 +76,9 @@ public void draw() {
         coursesTable.drawTable();
         fill(40,10,120);
         rect(197.5,253.5,445,25);
+    }
+    if (screen.equals("Diploma Requirements")) {
+        selectedDiploma.diplomaTable.drawTable();
     }
 }
 
@@ -383,7 +387,9 @@ public void initializeCourseTable() {
 }
 
 public void initializeDiplomas() {
+    int longestColumnWidth = 450;
     diplomas.add(new Diploma("Core 40"));
+<<<<<<< Updated upstream
     diplomas.get(0).parseDiploma("Core40.csv", courses);
 }
 
@@ -414,3 +420,37 @@ public ArrayList<String> searchCourse(String entry, int colHgt){
     }
     return searchedCourses;
 }
+=======
+    Diploma currentDiploma = diplomas.get(0);
+    currentDiploma.parseDiploma("Core40.csv", courses);
+    currentDiploma.diplomaTable.setAllProperties(currentDiploma.subjects.size(), 3, 75, 330, 650, 300);
+    int[] sizes = {165,longestColumnWidth,35};
+    currentDiploma.diplomaTable.setColumnSizes(sizes);
+    currentDiploma.diplomaTable.setDisplay(2, 12, color(0), color(0));
+    String[][] labels = new String[currentDiploma.diplomaTable.rowNum][currentDiploma.diplomaTable.columnNum];
+    for (int i = 0; i < currentDiploma.diplomaTable.rowNum; i++) {
+        labels[i][0] = currentDiploma.subjects.get(i).name + " (" + currentDiploma.subjects.get(i).numRequired + ")";
+        labels[i][1] = "";
+        int requirementCreditsNum = 0;
+        String lastLine = "";
+        textSize(currentDiploma.diplomaTable.fontSize);
+        for (RequiredCourses requirement : currentDiploma.subjects.get(i).requiredCourses) {
+            lastLine += requirement.toString(3);
+            if (textWidth(lastLine) > longestColumnWidth) {
+                labels[i][1] += "\n" + requirement.toString(3);
+                lastLine = requirement.toString(3);
+            } else {
+                labels[i][1] += "; " + requirement.toString(3);
+            }
+            if (labels[i][1].substring(0,2).equals("; ") || labels[i][1].substring(0,2).equals("\n")) {
+                labels[i][1] = labels[i][1].substring(2);
+            }
+            requirementCreditsNum += requirement.numRequired;
+        }
+        labels[i][2] = "0/" + requirementCreditsNum;
+    }
+    currentDiploma.diplomaTable.createCellObjects(labels, true);
+    
+    selectedDiploma = currentDiploma;
+}
+>>>>>>> Stashed changes
