@@ -389,40 +389,8 @@ public void initializeCourseTable() {
 public void initializeDiplomas() {
     int longestColumnWidth = 450;
     diplomas.add(new Diploma("Core 40"));
-<<<<<<< Updated upstream
     diplomas.get(0).parseDiploma("Core40.csv", courses);
-}
-
-public ArrayList<String> searchCourse(String entry, int colHgt){
-    ArrayList<String> searchedCourses = new ArrayList<>();
-    int index = entry.length();
-    entry = entry.toLowerCase();
-    if (entry.equals("")){ //if search bar is blank, return all courses
-        for (int i = 0; i < courses.size(); i++){
-            searchedCourses.add(courses.get(i).name);
-        }
-    } else {
-        for (int i = 0; i < courses.size(); i++){
-            if (courses.get(i).name.toLowerCase().contains(entry)){ //if course name contains the entry 
-                searchedCourses.add(courses.get(i).name);
-            } else if (courses.get(i).tags.size() > 0){
-                for (int j = 0; j < courses.get(i).tags.size(); j++){
-                    if (courses.get(i).tags.get(j).toLowerCase().contains(entry)){ //if first few letters of tags match entry
-                        searchedCourses.add(courses.get(i).name);
-                    }
-                }
-            }
-        }
-        while (searchedCourses.size() < colHgt){ //clear extra table cells
-            searchedCourses.add("");
-        }
-
-    }
-    return searchedCourses;
-}
-=======
     Diploma currentDiploma = diplomas.get(0);
-    currentDiploma.parseDiploma("Core40.csv", courses);
     currentDiploma.diplomaTable.setAllProperties(currentDiploma.subjects.size(), 3, 75, 330, 650, 300);
     int[] sizes = {165,longestColumnWidth,35};
     currentDiploma.diplomaTable.setColumnSizes(sizes);
@@ -453,4 +421,35 @@ public ArrayList<String> searchCourse(String entry, int colHgt){
     
     selectedDiploma = currentDiploma;
 }
->>>>>>> Stashed changes
+
+
+
+public ArrayList<String> searchCourse(String entry, int colHgt){
+    ArrayList<String> searchedCourses = new ArrayList<>();
+    int index = entry.length();
+    entry = entry.toLowerCase();
+    if (entry.equals("")){ //if search bar is blank, return all courses
+        for (int i = 0; i < courses.size(); i++){
+            searchedCourses.add(courses.get(i).name);
+        }
+    } else {
+        for (int i = 0; i < courses.size(); i++){
+            if (courses.get(i).name.toLowerCase().contains(entry)){ //if course name contains the entry 
+                searchedCourses.add(courses.get(i).name);
+            } else if (courses.get(i).tags.size() > 0){
+                for (int j = 0; j < courses.get(i).tags.size(); j++){
+                    if (courses.get(i).tags.get(j).toLowerCase().contains(entry)){ //if first few letters of tags match entry
+                        searchedCourses.add(courses.get(i).name);
+                    }
+                }
+            }
+        }
+        while (searchedCourses.size() < colHgt){ //clear extra table cells
+            searchedCourses.add("");
+        }
+
+    }
+    return searchedCourses;
+}
+
+    
