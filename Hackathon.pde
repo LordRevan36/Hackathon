@@ -337,11 +337,9 @@ public void initializeScheduleUIElements(boolean visible) {
 
 public void initializeScheduleTable() {
     String[] titles = {"Freshman Year", "Sophomore Year", "Junior Year", "Senior Year", "Other"};
-    String[][] labels = {{"Semester 1", "Semester 2"}, {"APCSA", "APCSA"}, {"AP Calculus BC", "AP Calculus BC"}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
+    String[][] labels = {{"Semester 1", "Semester 2"},  {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
     user.initializeTableDrawings(8, 2, 150, 330, 500, 250, titles, labels, scheduleTableTextFields, scheduleTableDeleteButtons, 2, 16, color(0), color(0));
     scheduleTable = user.userSchedules.get(0);
-    scheduleTable.cells[1][0].label = "English 9";
-    scheduleTable.cells[1][1].label = "English 9";
 }
 
 public void initializeScheduleAddButton(){
@@ -461,6 +459,7 @@ public void initializeCourseTable() {
     coursesTable.createCellObjects(emptyArray, true);
     coursesTable.setDisplay(2, 16, color(0), color(0));
     coursesTable.setColumn(0, courseNames);
+    coursesTable.limit = 10;
     coursesTable.title = "Courses";
     
 }
@@ -497,8 +496,8 @@ public void initializeDiplomas() {
         labels[i][2] = "0/" + requirementCreditsNum;
     }
     currentDiploma.diplomaTable.createCellObjects(labels, true);
-    
     selectedDiploma = currentDiploma;
+    addDiplomaTags();
 }
 
 
@@ -519,6 +518,7 @@ public ArrayList<String> searchCourse(String entry, int colHgt){
                 for (int j = 0; j < courses.get(i).tags.size(); j++){
                     if (courses.get(i).tags.get(j).toLowerCase().contains(entry)){ //if first few letters of tags match entry
                         searchedCourses.add(courses.get(i).name);
+                        break;
                     }
                 }
             }
@@ -532,3 +532,14 @@ public ArrayList<String> searchCourse(String entry, int colHgt){
 }
 
 
+public void addDiplomaTags() {
+    for (Diploma diploma : diplomas) {
+        for (Subject subject : diploma.subjects) {
+            for (RequiredCourses requirement : subject.requiredCourses) {
+                for (Course course : requirement.courses) {
+                    course.tags.add(diploma.name + ":" + subject.name + ":" + requirement.name);
+                }
+            }
+        }
+    }
+}
