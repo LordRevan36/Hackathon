@@ -14,7 +14,7 @@ public class RequiredCourses {
     public String toString(int courseNumLimit) {
         String result = name + " (" + numRequired + "): ";
         int num = 0;
-        for (String category : categories) {
+        /*for (String category : categories) {
             result += category + ", ";
             num++;
             if (num >= courseNumLimit) {
@@ -31,7 +31,7 @@ public class RequiredCourses {
                 result += "and more--";
                 break;
             }
-        }
+        }*/
         String temp = result;
         result = temp.substring(0, temp.length() - 2);
         return result;
