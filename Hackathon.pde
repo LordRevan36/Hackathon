@@ -140,11 +140,17 @@ public void handleButtonEvents(GButton button, GEvent event) {
         for (int i = 0; i < scheduleTableDeleteButtons.length; i++){
             for (int j = 0; j < scheduleTableDeleteButtons[i].length; j++){
                 if (button == scheduleTableDeleteButtons[i][j]){
-                    user.deleteCourse(user.userSchedules, selectedYear, i+1, j);
+                    boolean hasTwoCredits = user.deleteCourse(user.userSchedules, selectedYear, i+1, j);
                     scheduleTableDeleteButtons[i][j].setVisible(false);
                     scheduleTableDeleteButtons[i][j].setEnabled(false);
                     scheduleTableTextFields[i][j].setVisible(true);
                     scheduleTableTextFields[i][j].setEnabled(true);
+                    if (hasTwoCredits){
+                        scheduleTableDeleteButtons[i][j+1].setVisible(false);
+                        scheduleTableDeleteButtons[i][j+1].setEnabled(false);
+                        scheduleTableTextFields[i][j+1].setVisible(true);
+                        scheduleTableTextFields[i][j+1].setEnabled(true);
+                    }
                 }
             }
         }
