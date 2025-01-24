@@ -22,7 +22,10 @@ public class User {
     
     public void deleteCourse(ArrayList<TableDrawing> schedule, String year, int row, int col){
         if (year.equals("Freshman")){
-            schedule.get(0).setOneLabel(row,col,"");
+            if (getCreditNum(schedule, 0, row, col) == 2){
+            schedule.get(0).setOneLabel(row,col + 1,"");
+            }
+            schedule.get(0).setOneLabel(row, col, "");
         } else if (year.equals("Sophomore")){
             schedule.get(1).setOneLabel(row,col,"");
         } else if (year.equals("Junior")){
@@ -33,5 +36,19 @@ public class User {
             schedule.get(4).setOneLabel(row,col,"");
         }
     }
-    
+
+    public int getCreditNum(ArrayList<TableDrawing> schedule, int year, int row, int col){
+        String[][] currentSchedule = schedule.get(year).getLabelArray();
+        String currentCourseName = currentSchedule[row][col];
+        //traverse courses to find currentCourse, then return numCredits of that course
+        
+        for (int i = 0; i < courses.size(); i++){
+            String courseName = courses.get(i).name;
+            if (courseName.equals(currentCourseName)){
+                return courses.get(i).numCredits;
+            }
+        }
+        
+        return 1;
+    }
 }

@@ -30,14 +30,15 @@ ProgressBar currentProgressBar, finalProgressBar;
     //schedule screen UI elements
 GButton freshmanButton, sophomoreButton, juniorButton, seniorButton, otherButton;
 TableDrawing scheduleTable;
+GPanel[] coursesPopup;
+GTextField[][] scheduleTableTextFields = new GTextField[7][2];
+GButton[][] scheduleTableDeleteButtons = new GButton[7][2];
     //stores which grade on the schedule screen is selected
 String selectedYear;
     //diploma screen UI elements
 GOption generalDiplomaButton, core40Button, academicHonorsButton, technicalHonorsButton;
 GLabel selectDiplomaLabel, totalCreditsLabel;
 GToggleGroup diplomaSelection;
-GTextField[][] scheduleTableTextFields = new GTextField[7][2];
-GButton[][] scheduleTableDeleteButtons = new GButton[7][2];
     //course list screen UI elements
 GTextField searchBar;
 GLabel searchBarLabel;
@@ -155,6 +156,13 @@ public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
         if (textcontrol == searchBar){
             //set labels of coursesTable to searchCourse(searchBar.getText())
             coursesTable.setColumn(0,searchCourse(searchBar.getText(),10));
+        }
+        for (int i = 0; i < scheduleTableTextFields.length; i++){
+            for (int j = 0; j < scheduleTableTextFields[i].length; j++){
+                if (textcontrol == scheduleTableTextFields[i][j]){
+
+                }
+            }
         }
     }
 }
@@ -280,7 +288,7 @@ public void initializeScheduleUIElements(boolean visible) {
 
 public void initializeScheduleTable() {
     String[] titles = {"Freshman Year", "Sophomore Year", "Junior Year", "Senior Year", "Other"};
-    String[][] labels = {{"Semester 1", "Semester 2"}, {"APCSA", "APCSA"}, {"AP Calc BC", "AP Calc BC"}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
+    String[][] labels = {{"Semester 1", "Semester 2"}, {"APCSA", "APCSA"}, {"AP Calculus BC", "AP Calculus BC"}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
     user.initializeTableDrawings(8, 2, 150, 330, 500, 250, titles, labels, scheduleTableTextFields, scheduleTableDeleteButtons, 2, 16, color(0), color(0));
     scheduleTable = user.userSchedules.get(0);
     scheduleTable.cells[1][0].label = "English 9";
