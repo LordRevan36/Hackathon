@@ -19,6 +19,42 @@ public class User {
         }
         setEmptyCells(tableFields, buttons, labels, x, y, (float)wid/rowNum, (float)hgt/columnNum);
     }
+
+     public boolean addCourse(ArrayList<TableDrawing> schedule, String year, int row, int col, String courseName){
+        boolean hasTwoCredits = false;
+        if (year.equals("Freshman")){
+            if (getCreditNum(courseName) == 2){
+            schedule.get(0).setOneLabel(row,col + 1,courseName);
+            hasTwoCredits = true;
+            }
+            schedule.get(0).setOneLabel(row, col, courseName);
+        } else if (year.equals("Sophomore")){
+            if (getCreditNum(courseName) == 2){
+            schedule.get(1).setOneLabel(row,col + 1,courseName);
+            hasTwoCredits = true;
+            }
+            schedule.get(1).setOneLabel(row,col,courseName);
+        } else if (year.equals("Junior")){
+            if (getCreditNum(courseName) == 2){
+            schedule.get(2).setOneLabel(row,col + 1,courseName);
+            hasTwoCredits = true;
+            }
+            schedule.get(2).setOneLabel(row,col,courseName);
+        } else if (year.equals("Senior")){
+            if (getCreditNum(courseName) == 2){
+            schedule.get(3).setOneLabel(row,col + 1,courseName);
+            hasTwoCredits = true;
+            }
+            schedule.get(3).setOneLabel(row,col,courseName);
+        } else if (year.equals("Other")){
+            if (getCreditNum(courseName) == 2){
+            schedule.get(4).setOneLabel(row,col + 1,courseName);
+            hasTwoCredits = true;
+            }
+            schedule.get(4).setOneLabel(row,col,courseName);
+        }
+        return hasTwoCredits;
+    }
     
     public boolean deleteCourse(ArrayList<TableDrawing> schedule, String year, int row, int col){
         boolean hasTwoCredits = false;
@@ -68,6 +104,15 @@ public class User {
             }
         }
         
+        return 1;
+    }
+
+    public int getCreditNum(String courseName){
+        for (int i = 0; i < courses.size();i++){
+            if (courses.get(i).name.equals(courseName)){
+                return courses.get(i).numCredits;
+            }
+        }
         return 1;
     }
 }
