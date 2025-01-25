@@ -22,33 +22,38 @@ public class User {
 
      public boolean addCourse(ArrayList<TableDrawing> schedule, String year, int row, int col, String courseName){
         boolean hasTwoCredits = false;
+        int cred = 1;
+        if (col == 1){
+            cred = -1;
+        }
+
         if (year.equals("Freshman")){
             if (getCreditNum(courseName) == 2){
-            schedule.get(0).setOneLabel(row,col + 1,courseName);
+            schedule.get(0).setOneLabel(row,col + cred,courseName);
             hasTwoCredits = true;
             }
             schedule.get(0).setOneLabel(row, col, courseName);
         } else if (year.equals("Sophomore")){
             if (getCreditNum(courseName) == 2){
-            schedule.get(1).setOneLabel(row,col + 1,courseName);
+            schedule.get(1).setOneLabel(row,col + cred,courseName);
             hasTwoCredits = true;
             }
             schedule.get(1).setOneLabel(row,col,courseName);
         } else if (year.equals("Junior")){
             if (getCreditNum(courseName) == 2){
-            schedule.get(2).setOneLabel(row,col + 1,courseName);
+            schedule.get(2).setOneLabel(row,col + cred,courseName);
             hasTwoCredits = true;
             }
             schedule.get(2).setOneLabel(row,col,courseName);
         } else if (year.equals("Senior")){
             if (getCreditNum(courseName) == 2){
-            schedule.get(3).setOneLabel(row,col + 1,courseName);
+            schedule.get(3).setOneLabel(row,col + cred,courseName);
             hasTwoCredits = true;
             }
             schedule.get(3).setOneLabel(row,col,courseName);
         } else if (year.equals("Other")){
             if (getCreditNum(courseName) == 2){
-            schedule.get(4).setOneLabel(row,col + 1,courseName);
+            schedule.get(4).setOneLabel(row,col + cred,courseName);
             hasTwoCredits = true;
             }
             schedule.get(4).setOneLabel(row,col,courseName);

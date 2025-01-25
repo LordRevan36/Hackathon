@@ -35,7 +35,7 @@ GButton[] scheduleAddButtons;
 GPanel addCoursePopup;
 GTextField[][] scheduleTableTextFields = new GTextField[7][2];
 GButton[][] scheduleTableDeleteButtons = new GButton[7][2];
-int[] lastTextFieldUsed = new int[2]; //stores row in index 0, stores col in index 1
+int[] lastTextFieldUsed = new int[2]; //stores row in index 1, stores col in index 2
     //stores which grade on the schedule screen is selected
 String selectedYear;
     //diploma screen UI elements
@@ -167,7 +167,6 @@ public void handleButtonEvents(GButton button, GEvent event) {
                 scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setText("");
                 if (hasTwoCredits){
                     int col = 1;
-                    System.out.println(lastTextFieldUsed[1]);
                     if (lastTextFieldUsed[1] == 1){ //if user uses sem2 controls, also get sem1 !!!NEEDS WORK
                         col = -1;
                     }
@@ -178,7 +177,10 @@ public void handleButtonEvents(GButton button, GEvent event) {
                     scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setText("");
                 }
                 addCoursePopup.setVisible(false);
-                addCoursePopup.setEnabled(false);             
+                addCoursePopup.setEnabled(false);
+                //enable delete buttons
+                //!! still needs work, make both credits appears
+                
             }
         }
     }
