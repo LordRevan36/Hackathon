@@ -23,10 +23,10 @@ public class User {
         setEmptyCells(tableFields, buttons, labels, x, y, (float)wid/rowNum, (float)hgt/columnNum);
     }
 
-     public boolean addCourse(ArrayList<TableDrawing> schedule, String year, int row, int col, String courseName, ArrayList<Course> courses){
+     public boolean addCourse(ArrayList<TableDrawing> schedule, String year, int row, int col, String courseName, ArrayList<Course> courseList){
         boolean hasTwoCredits = false;
         hasDuplicate = false;
-        hasPrereqs = hasPrereqs(courseName, courses, year);
+        hasPrereqs = hasPrereqs(courseName, courseList, year);
         int cred = 1;
         if (col == 1){
             cred = -1;
@@ -138,11 +138,11 @@ public class User {
     }
 
     public boolean hasPrereqs(String courseName, ArrayList<Course> courses, String year){
-        Course currentCourse = courses.get(0); //temporarily holds first course
+        Course currentCourse = courses.get(0); //placeholder
         int yearNum;
         int currentGradeLevel;
         for (int i = 0; i < courses.size(); i++){
-            if (courseName.equals(courses.get(i))){
+            if (courseName.equals(courses.get(i).name)){
                 currentCourse = courses.get(i);
                 break;
             }
@@ -156,6 +156,7 @@ public class User {
         for (int i = 0; i < currentHasPrereqs.length; i++){
             currentHasPrereqs[i] = false;
         }
+
         if (year.equals("Freshman")){
             yearNum = 0;
             currentGradeLevel = 9;
@@ -174,12 +175,12 @@ public class User {
             currentGradeLevel = 13;
         }
         //check grade level requirement
-        if (currentGradeLevel <= currentCourse.gradeLevel){
+        if (currentGradeLevel < currentCourse.gradeLevel){
             noReqReason = "The selected grade level is too low for this course.";
             return false;
         }
 
-        //go through all previous schedules and check if prereqs of currentCourse are scheduled
+        //go through all previous schedules and check if prereqs of currentCourse are in that schedule
         for (int i = yearNum; i >= 0; i--){ //goes through all schedules of previous years
             String[][] schedule = userSchedules.get(i).getLabelArray();
             for (int j = 0; j < schedule.length; j++){ //goes through array of courses in schedule
@@ -198,6 +199,7 @@ public class User {
                 return false;
             }
         }
+        
         return true;
     }
 }

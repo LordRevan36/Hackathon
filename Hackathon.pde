@@ -26,7 +26,7 @@ String screen;
 //removed (IF)
     //global UI elements
 GButton scheduleButton, courseListButton, diplomaRequirementsButton;
-GLabel currentProgressLabel, finalProgressLabel;
+GLabel currentProgressLabel, finalProgressLabel, projectTitle;
 ProgressBar currentProgressBar, finalProgressBar;
     //schedule screen UI elements
 GButton freshmanButton, sophomoreButton, juniorButton, seniorButton, otherButton;
@@ -87,6 +87,8 @@ public void draw() {
     if (screen.equals("Diploma Requirements")) { //<>// //<>//
         selectedDiploma.diplomaTable.drawTable();
     }
+    textSize(50);
+    text("FHS Schedule Planner", 400, 70);
 }
 
 public void handleButtonEvents(GButton button, GEvent event) {
@@ -164,29 +166,28 @@ public void handleButtonEvents(GButton button, GEvent event) {
                 }
             }
         }
-        for (int i = 0; i < scheduleAddButtons.length;i++){
+        for (int i = 0; i < scheduleAddButtons.length;i++){ //<>//
             if (button == scheduleAddButtons[i]){
                 boolean hasTwoCredits = user.addCourse(user.userSchedules, selectedYear, lastTextFieldUsed[0] + 1, lastTextFieldUsed[1], scheduleAddButtons[i].getText(), courses);
                 if (!user.hasDuplicate && user.hasPrereqs){
-                scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setVisible(false);
-                scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setVisible(true);
-                scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setEnabled(false);
-                scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setEnabled(true);
-                scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setText("");
-                if (hasTwoCredits){
-                    int col = 1;
-                    System.out.println(lastTextFieldUsed[1]);
-                    if (lastTextFieldUsed[1] == 1){ //if user uses sem2 controls, also get sem1 !!!NEEDS WORK
-                        col = -1;
+                    scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setVisible(false);
+                    scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setVisible(true);
+                    scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setEnabled(false);
+                    scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setEnabled(true);
+                    scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setText("");
+                    if (hasTwoCredits){
+                        int col = 1;
+                        if (lastTextFieldUsed[1] == 1){ //if user uses sem2 controls, also get sem1 !!!NEEDS WORK
+                            col = -1;
+                        }
+                        scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setVisible(false);
+                        scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setVisible(true);
+                        scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setEnabled(false);
+                        scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setEnabled(true);
+                        scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setText("");
                     }
-                    scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setVisible(false);
-                    scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setVisible(true);
-                    scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setEnabled(false);
-                    scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setEnabled(true);
-                    scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setText("");
-                }
-                addCoursePopup.setVisible(false);
-                addCoursePopup.setEnabled(false);  
+                    addCoursePopup.setVisible(false);
+                    addCoursePopup.setEnabled(false);  
                 }           
             }
         }
@@ -347,6 +348,7 @@ public void initializeGlobalUIElements() {
     currentProgressBar.setColors(color(0,0,255), color(0,255,0), color(0), color(0));
     finalProgressBar = new ProgressBar(415, 200, 290, 20, 0, 42, 42, 25, "RIGHT");
     finalProgressBar.setColors(color(0,0,255), color(0,255,0), color(0), color(0));
+
 }
 
 public void initializeScheduleUIElements(boolean visible) {
@@ -386,7 +388,7 @@ public void initializeScheduleAddButton(){
     }
 }
 
-public void setupAddButtons(String entry){
+public void setupAddButtons(String entry){ //<>//
     String[] suggestedCourses = new String[scheduleAddButtons.length];
     for (int i = 0; i < scheduleAddButtons.length;i++){
         suggestedCourses[i] = searchCourse(entry, scheduleAddButtons.length).get(i);
