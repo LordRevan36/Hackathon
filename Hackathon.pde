@@ -36,6 +36,7 @@ GPanel addCoursePopup;
 GTextField[][] scheduleTableTextFields = new GTextField[7][2];
 GButton[][] scheduleTableDeleteButtons = new GButton[7][2];
 int[] lastTextFieldUsed = new int[2]; //stores row in index 0, stores col in index 1
+GLabel errorLabel;
     //stores which grade on the schedule screen is selected
 String selectedYear;
     //diploma screen UI elements
@@ -165,7 +166,8 @@ public void handleButtonEvents(GButton button, GEvent event) {
         }
         for (int i = 0; i < scheduleAddButtons.length;i++){
             if (button == scheduleAddButtons[i]){
-                boolean hasTwoCredits = user.addCourse(user.userSchedules, selectedYear, lastTextFieldUsed[0] + 1, lastTextFieldUsed[1], scheduleAddButtons[i].getText());
+                boolean hasTwoCredits = user.addCourse(user.userSchedules, selectedYear, lastTextFieldUsed[0] + 1, lastTextFieldUsed[1], scheduleAddButtons[i].getText(), courses);
+                if (!user.hasDuplicate && user.hasPrereqs){
                 scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setVisible(false);
                 scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setVisible(true);
                 scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setEnabled(false);
@@ -184,7 +186,8 @@ public void handleButtonEvents(GButton button, GEvent event) {
                     scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setText("");
                 }
                 addCoursePopup.setVisible(false);
-                addCoursePopup.setEnabled(false);             
+                addCoursePopup.setEnabled(false);  
+                }           
             }
         }
     }
