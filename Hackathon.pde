@@ -307,6 +307,7 @@ public void setupCourses(String fileName) {
                 temp = temp.substring(index + 1);
             }
             courses.get(last).tags.add(temp); //add last tag
+            courses.get(last).tags.add(courses.get(last).subject);
         }
     } catch (IOException e) {
         e.printStackTrace();
