@@ -4,6 +4,9 @@ public class User {
     //array of TableDisplays allows us to switch between table displays depending on the year they click
     //and we could also give them an ArrayList that stores every course from each table
     ArrayList<TableDrawing> userSchedules;
+    boolean hasDuplicate;
+    boolean hasPrereqs;
+    String noReqReason; //stores why user doesn't meet prereqs
 
     public User() {
 
@@ -20,13 +23,25 @@ public class User {
         setEmptyCells(tableFields, buttons, labels, x, y, (float)wid/rowNum, (float)hgt/columnNum);
     }
 
-     public boolean addCourse(ArrayList<TableDrawing> schedule, String year, int row, int col, String courseName){
+     public boolean addCourse(ArrayList<TableDrawing> schedule, String year, int row, int col, String courseName, ArrayList<Course> courses){
         boolean hasTwoCredits = false;
+        hasDuplicate = false;
+        hasPrereqs = hasPrereqs(courseName, courses, year);
         int cred = 1;
         if (col == 1){
             cred = -1;
         }
-
+        for (int i = 0; i < 5; i++){
+            for (int j = 0; j < schedule.get(i).getLabelArray().length; j++){
+                for (int k = 0; k < schedule.get(i).getLabelArray()[j].length; k++){
+                    if (schedule.get(i).getLabelArray()[j][k].equals(courseName)){ //checks for duplicate course
+                        hasDuplicate = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!hasDuplicate && hasPrereqs){
         if (year.equals("Freshman")){
             if (getCreditNum(courseName) == 2){
             schedule.get(0).setOneLabel(row,col + cred,courseName);
@@ -57,6 +72,7 @@ public class User {
             hasTwoCredits = true;
             }
             schedule.get(4).setOneLabel(row,col,courseName);
+        }
         }
         return hasTwoCredits;
     }
@@ -119,5 +135,69 @@ public class User {
             }
         }
         return 1;
+    }
+
+    public boolean hasPrereqs(String courseName, ArrayList<Course> courses, String year){
+        Course currentCourse = courses.get(0); //temporarily holds first course
+        int yearNum;
+        int currentGradeLevel;
+        for (int i = 0; i < courses.size(); i++){
+            if (courseName.equals(courses.get(i))){
+                currentCourse = courses.get(i);
+                break;
+            }
+        }
+        //array of prereqs and whether or not they're met
+        String[] currentPrereqs = new String[currentCourse.prereq.length];
+        for (int i = 0; i < currentPrereqs.length; i++){
+            currentPrereqs[i] = currentCourse.prereq[i];
+        }
+        boolean[] currentHasPrereqs = new boolean[currentCourse.prereq.length];
+        for (int i = 0; i < currentHasPrereqs.length; i++){
+            currentHasPrereqs[i] = false;
+        }
+        if (year.equals("Freshman")){
+            yearNum = 0;
+            currentGradeLevel = 9;
+        } else if (year.equals("Sophomore")){
+            yearNum = 1;
+            currentGradeLevel = 10;
+        } else if (year.equals("Junior")){
+            yearNum = 2;
+            currentGradeLevel = 11;
+        } else if (year.equals("Senior")){
+            yearNum = 3;
+            currentGradeLevel = 12;
+        } else {
+            //for Other schedule, makes it greater than and after all years
+            yearNum = 4;
+            currentGradeLevel = 13;
+        }
+        //check grade level requirement
+        if (currentGradeLevel <= currentCourse.gradeLevel){
+            noReqReason = "The selected grade level is too low for this course.";
+            return false;
+        }
+
+        //go through all previous schedules and check if prereqs of currentCourse are scheduled
+        for (int i = yearNum; i >= 0; i--){ //goes through all schedules of previous years
+            String[][] schedule = userSchedules.get(i).getLabelArray();
+            for (int j = 0; j < schedule.length; j++){ //goes through array of courses in schedule
+                for (int k = 0; k < schedule[j].length; k++){
+                    for (int l = 0; l < currentPrereqs.length; l++){ // goes through all prereqs
+                        if (schedule[j][k].equals(currentPrereqs[l])){
+                            currentHasPrereqs[l] = true;
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < currentHasPrereqs.length; i++){
+            if (!currentHasPrereqs[i]){
+                noReqReason = "In order to schedule this course, you must schedule its prerequisite courses first.";
+                return false;
+            }
+        }
+        return true;
     }
 }
