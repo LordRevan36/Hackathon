@@ -356,6 +356,7 @@ public void initializeScheduleUIElements(boolean visible) {
     juniorButton = new GButton(this, 350, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight(), "Junior");
     seniorButton = new GButton(this, 455, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight(), "Senior");
     otherButton = new GButton(this, 560, freshmanButton.getY(), freshmanButton.getWidth(), freshmanButton.getHeight(), "Other");
+    errorLabel = new GLabel(this, 200, 600, 200, 50, user.noReqReason);
     schedule.addControl(freshmanButton);
     schedule.addControl(sophomoreButton);
     schedule.addControl(juniorButton);
