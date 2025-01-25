@@ -35,6 +35,7 @@ GButton[] scheduleAddButtons;
 GPanel addCoursePopup;
 GTextField[][] scheduleTableTextFields = new GTextField[7][2];
 GButton[][] scheduleTableDeleteButtons = new GButton[7][2];
+int[] lastTextFieldUsed = new int[2]; //stores row in index 1, stores col in index 2
     //stores which grade on the schedule screen is selected
 String selectedYear;
     //diploma screen UI elements
@@ -162,6 +163,32 @@ public void handleButtonEvents(GButton button, GEvent event) {
                 }
             }
         }
+        for (int i = 0; i < scheduleAddButtons.length;i++){
+            if (button == scheduleAddButtons[i]){
+                boolean hasTwoCredits = user.addCourse(user.userSchedules, selectedYear, lastTextFieldUsed[0] + 1, lastTextFieldUsed[1], scheduleAddButtons[i].getText());
+                scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setVisible(false);
+                scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setVisible(true);
+                scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setEnabled(false);
+                scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setEnabled(true);
+                scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]].setText("");
+                if (hasTwoCredits){
+                    int col = 1;
+                    if (lastTextFieldUsed[1] == 1){ //if user uses sem2 controls, also get sem1 !!!NEEDS WORK
+                        col = -1;
+                    }
+                    scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setVisible(false);
+                    scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setVisible(true);
+                    scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setEnabled(false);
+                    scheduleTableDeleteButtons[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setEnabled(true);
+                    scheduleTableTextFields[lastTextFieldUsed[0]][lastTextFieldUsed[1]+(col)].setText("");
+                }
+                addCoursePopup.setVisible(false);
+                addCoursePopup.setEnabled(false);
+                //enable delete buttons
+                //!! still needs work, make both credits appears
+                
+            }
+        }
     }
 }
 
@@ -178,8 +205,17 @@ public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
         for (int i = 0; i < scheduleTableTextFields.length; i++){
             for (int j = 0; j < scheduleTableTextFields[i].length; j++){
                 if (textcontrol == scheduleTableTextFields[i][j]){
+                    if (j == 0){
+                        addCoursePopup.moveTo(2,400);
+                    } else {
+                        addCoursePopup.moveTo(653,400);
+                    }
+                    addCoursePopup.setCollapsed(false);
                     addCoursePopup.setVisible(true);
                     addCoursePopup.setEnabled(true);
+                    setupAddButtons(scheduleTableTextFields[i][j].getText());
+                    lastTextFieldUsed[0] = i;
+                    lastTextFieldUsed[1] = j;
                 }
             }
         }
@@ -331,17 +367,28 @@ public void initializeScheduleTable() {
 public void initializeScheduleAddButton(){
     scheduleAddButtons = new GButton[4]; //popup displays 4 courses at a time
     for (int i = 0; i < 4; i++){
-         scheduleAddButtons[i] = new GButton(this, 505, 505, 190,30,"filler");
+         scheduleAddButtons[i] = new GButton(this, 505, 505, 140,30,"filler");
     }
-    addCoursePopup= new GPanel(this,500,500,200,150,"Select a course to add");
+    addCoursePopup= new GPanel(this,0,800,145,150,"Select a course to add");
     addCoursePopup.setCollapsed(false);
-    addCoursePopup.setDraggable(true);
+    addCoursePopup.setDraggable(false);
     addCoursePopup.setVisible(false);
     addCoursePopup.setEnabled(false);
     for (int i = 0; i < 4; i++){
-        addCoursePopup.addControl(scheduleAddButtons[i],5,22+i*32,0);
+        addCoursePopup.addControl(scheduleAddButtons[i],3,22+i*32,0);
     }
 }
+
+public void setupAddButtons(String entry){
+    String[] suggestedCourses = new String[scheduleAddButtons.length];
+    for (int i = 0; i < scheduleAddButtons.length;i++){
+        suggestedCourses[i] = searchCourse(entry, scheduleAddButtons.length).get(i);
+    }
+    for (int i = 0; i < scheduleAddButtons.length; i++){
+        scheduleAddButtons[i].setText(suggestedCourses[i]);
+    }
+}
+
 
 //for tables: sets the empty cells to text fields
 public void setEmptyCells(GTextField[][] tableFields, GButton[][] buttons, String[][] labels, int x, int y, float wid, float hgt){
