@@ -83,7 +83,7 @@ public void draw() {
         coursesTable.drawTable();
         fill(40,10,120);
         rect(197.5,253.5,445,25);
-    }
+    } //<>// //<>// //<>// //<>//
     if (screen.equals("Diploma Requirements")) { //<>// //<>//
         selectedDiploma.diplomaTable.drawTable();
     }
@@ -194,7 +194,12 @@ public void handleButtonEvents(GButton button, GEvent event) {
 }
 
 public void handleToggleControlEvents(GToggleControl option, GEvent event) {
-    
+    for (Diploma diploma : diplomas) {
+        if (diploma.name.contains(option.getText())) {
+            selectedDiploma = diploma;
+            return;
+        }
+    }
 }
 
 public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
@@ -481,18 +486,22 @@ public void initializeCourseTable() {
         courseNames.add(course.name);
     }
     coursesTable = new TableDrawing(courseNames.size(), 1, 150, 330, 500, 250);
+    int columnMagnitude = coursesTable.hgt/8;
+    for (int i = 0; i < 10; i++) {
+        coursesTable.rowSizes[i] = columnMagnitude;
+    }
     String[][] emptyArray = new String[coursesTable.rowNum][coursesTable.columnNum];
     for (int i = 0; i < emptyArray.length; i++) {
         for (int j = 0; j < emptyArray[0].length; j++) {
             emptyArray[i][j] = "";
         }
     }
-    coursesTable.createCellObjects(emptyArray, true);
+    coursesTable.createCellObjects(emptyArray, true); //<>// //<>//
     coursesTable.setDisplay(2, 16, color(0), color(0));
     coursesTable.setColumn(0, courseNames);
     coursesTable.limit = 10;
     coursesTable.title = "Courses";
-    
+     //<>// //<>//
 }
 
 public void initializeDiplomas() {
@@ -500,6 +509,20 @@ public void initializeDiplomas() {
     diplomas.add(new Diploma("Core 40"));
     Diploma currentDiploma = diplomas.get(0);
     currentDiploma.parseDiploma("Core40.csv", courses);
+    diplomaInitializerLogic(currentDiploma, longestColumnWidth);
+    
+    
+    //general diploma
+    diplomas.add(new Diploma("General Diploma"));
+    currentDiploma = diplomas.get(1);
+    currentDiploma.parseDiploma("GeneralDiploma.csv", courses);
+    diplomaInitializerLogic(currentDiploma, longestColumnWidth);
+
+    selectedDiploma = diplomas.get(0);
+    addDiplomaTags();
+}
+
+public void diplomaInitializerLogic(Diploma currentDiploma, int longestColumnWidth) {
     currentDiploma.diplomaTable.setAllProperties(currentDiploma.subjects.size(), 3, 75, 330, 650, 300);
     int[] sizes = {165,longestColumnWidth,35};
     currentDiploma.diplomaTable.setColumnSizes(sizes);
@@ -527,10 +550,7 @@ public void initializeDiplomas() {
         labels[i][2] = "0/" + requirementCreditsNum;
     }
     currentDiploma.diplomaTable.createCellObjects(labels, true);
-    selectedDiploma = currentDiploma;
-    addDiplomaTags();
 }
-
 
 
 public ArrayList<String> searchCourse(String entry, int colHgt){
