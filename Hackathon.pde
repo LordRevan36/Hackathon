@@ -45,6 +45,8 @@ GToggleGroup diplomaSelection;
     //course list screen UI elements
 GTextField searchBar;
 GLabel searchBarLabel;
+GPanel courseDescriptionPopup;
+GTextArea courseDescriptionTextArea;
 
 //settings
 public void settings() {
@@ -81,7 +83,7 @@ public void draw() {
         fill(40,10,120);
         rect(197.5,253.5,445,25);
     }
-    if (screen.equals("Diploma Requirements")) {
+    if (screen.equals("Diploma Requirements")) { //<>// //<>//
         selectedDiploma.diplomaTable.drawTable();
     }
 }
@@ -117,6 +119,10 @@ public void handleButtonEvents(GButton button, GEvent event) {
             diplomaRequirements.setVisible(false);
             disableScheduleTextFields();
             disableScheduleDeleteButtons();
+        }
+        if (button == diplomaRequirementsButton || button == scheduleButton || button == courseListButton) {
+            courseDescriptionPopup.setVisible(false);
+            addCoursePopup.setVisible(false);
         }
         //changes displayed schedule table
         if (button == freshmanButton || button == sophomoreButton || button == juniorButton || button == seniorButton || button == otherButton) {
@@ -208,6 +214,22 @@ public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
                     setupAddButtons(scheduleTableTextFields[i][j].getText());
                     lastTextFieldUsed[0] = i;
                     lastTextFieldUsed[1] = j;
+                }
+            }
+        }
+    }
+}
+
+public void mousePressed() {
+    if (screen.equals("Course List")) {
+        if (!receiveCourseDescriptionMouseInput().equals("")) {
+            courseDescriptionPopup.setVisible(true);
+            courseDescriptionTextArea.setVisible(true);
+            courseDescriptionPopup.setText(receiveCourseDescriptionMouseInput());
+            for (Course course : courses) {
+                if (course.name.contains(receiveCourseDescriptionMouseInput())) {
+                    courseDescriptionTextArea.setText(course.description);
+                    break;
                 }
             }
         }
@@ -416,12 +438,19 @@ public void initializeDiplomaUIElements(boolean visible){
 }
 
 public void initializeCourseListUIElements(boolean visible){
+    int popupWidth = 600;
+    int popupHeight = 300;
     searchBar = new GTextField(this, 200, 256, 440, 20);
     textSize(30);
     searchBarLabel = new GLabel(this, 140, 250, 60, 30, "Search:");
+    courseDescriptionPopup = new GPanel(this,150,300,popupWidth,popupHeight,"Course Description");
     courseList.addControl(searchBar);
     courseList.addControl(searchBarLabel);
     courseList.setVisible(visible);
+    courseDescriptionPopup.setVisible(false);
+    courseDescriptionTextArea = new GTextArea(this, 5, 25, popupWidth - 10, popupHeight - 35);
+    courseDescriptionTextArea.setTextEditEnabled(false);
+    courseDescriptionPopup.addControl(courseDescriptionTextArea, 5, 25);
 }
 
 
@@ -504,8 +533,8 @@ public ArrayList<String> searchCourse(String entry, int colHgt){
     ArrayList<String> searchedCourses = new ArrayList<>();
     int index = entry.length();
     entry = entry.toLowerCase();
-    if (entry.equals("")){ //if search bar is blank, return all courses
-        for (int i = 0; i < courses.size(); i++){
+    if (entry.equals("")){ //if search bar is blank, return all courses //<>//
+        for (int i = 0; i < courses.size(); i++){ //<>//
             searchedCourses.add(courses.get(i).name);
         }
     } else {
@@ -540,4 +569,21 @@ public void addDiplomaTags() {
             }
         }
     }
+}
+
+public String receiveCourseDescriptionMouseInput() {
+    if (mouseX > coursesTable.x && mouseX < coursesTable.x + coursesTable.wid && mouseY > coursesTable.y && mouseY < coursesTable.y + coursesTable.hgt) {
+        int pos = coursesTable.y;
+        String label;
+        for (Cell[] row : coursesTable.cells) {
+            if (mouseY >= pos && mouseY <= pos + row[0].hgt) {
+                return row[0].label;
+            } else {
+                pos += row[0].hgt;
+            }
+        }
+    } else if (mouseX < courseDescriptionPopup.getX() || mouseX > courseDescriptionPopup.getX() + courseDescriptionPopup.getWidth() || mouseY < courseDescriptionPopup.getY() || mouseY > courseDescriptionPopup.getY() + courseDescriptionPopup.getHeight()) {
+        courseDescriptionPopup.setVisible(false);
+    }
+    return "";
 }
